@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'strings'
 require 'pastel'
 require 'tty-cursor'
 
@@ -69,11 +70,15 @@ module TTY
     # Create a frame
     #
     # @api public
-    def frame(top: 0, left: 0, width: 35, height: 3,
-              title: {}, border: :light, style: {})
+    def frame(top: 0, left: 0, width: 35, height: 3, title: {}, border: :light, style: {})
       output = []
       content = []
-      content = yield.split("\n") if block_given?
+
+      if block_given?
+        wrapped = Strings.wrap(yield, width - 2)
+        content = wrapped.split("\n")
+      end
+
       fg, bg = *extract_style(style)
       border_fg, border_bg = *extract_style(style[:border] || {})
 
