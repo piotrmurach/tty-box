@@ -35,7 +35,14 @@ Or install it yourself as:
 
     $ gem install tty-box
 
-## Usage
+## Contents
+
+* [1. Usage](#1-usage)
+* [2. Interface](#2-interface)
+  * [2.1 frame](#21-frame)
+  * [2.2 :style](#22-style)
+
+## 1. Usage
 
 ```ruby
 box = TTY::Box.frame(
@@ -47,6 +54,25 @@ box = TTY::Box.frame(
 )
 
 print box
+```
+
+## 2. Interface
+
+### 2.1 frame
+
+### 2.2 `:style`
+
+By default drawing a box doesn't apply any styling. You can change this using the `:style` keyword with foreground `:fg` and background `:bg` keys for both the main content and the border:
+
+```ruby
+style: {
+  fg: :bright_yellow,
+  bg: :blue,
+  border: {
+    fg: :bright_yellow,
+    bg: :blue
+  }
+}
 ```
 
 ## Development
