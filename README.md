@@ -17,6 +17,8 @@
 
 > Draw various frames and boxes in your terminal interface.
 
+**TTY::Box** provides box drawing component for [TTY](https://github.com/piotrmurach/tty) toolkit.
+
 ## Installation
 
 Add this line to your application's Gemfile:
