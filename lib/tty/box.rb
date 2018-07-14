@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'pastel'
 require 'tty-cursor'
 
 require_relative 'box/version'
@@ -61,31 +62,64 @@ module TTY
       TTY::Cursor
     end
 
-    def frame(top: 0, left: 0, title: {}, width: 35, height: 3, border: :light)
+    def color
+      @color ||= Pastel.new
+    end
+
+    # Create a frame
+    #
+    # @api public
+    def frame(top: 0, left: 0, width: 35, height: 3,
+              title: {}, border: :light, style: {})
       output = []
       content = []
       content = yield.split("\n") if block_given?
+      fg, bg = *extract_style(style)
+      border_fg, border_bg = *extract_style(style[:border] || {})
 
       output << cursor.move_to(left, top)
-      output << top_border(title, width, border)
+      output << top_border(title, width, border, style)
       (height - 2).times do |i|
         output << cursor.move_to(left, top + i + 1)
-        output << pipe_char(border)
-        output << content[i]
+        output << border_bg.(border_fg.(pipe_char(border)))
+        if content[i].nil?
+          output << bg.(fg.(' ' * (width - 2))) if style[:fg] || style[:bg]
+        else
+          output << bg.(fg.(content[i]))
+          if style[:fg] || style[:bg]
+            output << bg.(fg.(' ' * (width - 2 - content[i].size)))
+          end
+        end
         output << cursor.move_to(left + width - 1, top + i + 1)
-        output << pipe_char(border)
+        output << border_bg.(border_fg.(pipe_char(border)))
       end
       output << cursor.move_to(left, top + height - 1)
-      output << bottom_border(title, width, border)
+      output << bottom_border(title, width, border, style)
 
       output.join
     end
 
-    def top_border(title, width, border)
+    # Convert style keywords into styling
+    #
+    # @return [Array[Proc, Proc]]
+    #
+    # @api private
+    def extract_style(style)
+      fg = style[:fg] ? color.send(style[:fg]).detach : -> (c) { c }
+      bg = style[:bg] ? color.send(:"on_#{style[:bg]}").detach : -> (c) { c }
+      [fg, bg]
+    end
+
+    # Top border
+    #
+    # @return [String]
+    #
+    # @api private
+    def top_border(title, width, border, style)
       top_titles_size = title[:top_left].to_s.size +
                         title[:top_center].to_s.size +
                         title[:top_right].to_s.size
-
+      fg, bg = *extract_style(style[:border] || {})
 
       top_space_left = width - top_titles_size -
                        top_left_char.size - top_right_char.size
@@ -93,20 +127,26 @@ module TTY
       top_space_after = top_space_left / 2 + top_space_left % 2
 
       [
-        top_left_char(border),
-        title[:top_left].to_s,
-        line_char(border) * top_space_before,
-        title[:top_center].to_s,
-        line_char(border) * top_space_after,
-        title[:top_right].to_s,
-        top_right_char(border)
+        bg.(fg.(top_left_char(border))),
+        bg.(title[:top_left].to_s),
+        bg.(fg.(line_char(border) * top_space_before)),
+        bg.(title[:top_center].to_s),
+        bg.(fg.(line_char(border) * top_space_after)),
+        bg.(title[:top_right].to_s),
+        bg.(fg.(top_right_char(border)))
       ].join('')
     end
 
-    def bottom_border(title, width, border)
+    # Bottom border
+    #
+    # @return [String]
+    #
+    # @api private
+    def bottom_border(title, width, border, style)
       bottom_titles_size = title[:bottom_left].to_s.size +
                            title[:bottom_center].to_s.size +
                            title[:bottom_right].to_s.size
+      fg, bg = *extract_style(style[:border] || {})
 
       bottom_space_left = width - bottom_titles_size -
                           bottom_left_char.size - bottom_right_char.size
@@ -114,13 +154,13 @@ module TTY
       bottom_space_after = bottom_space_left / 2 + bottom_space_left % 2
 
       [
-        bottom_left_char(border),
-        title[:bottom_left].to_s,
-        line_char(border) * bottom_space_before,
-        title[:bottom_center].to_s,
-        line_char(border) * bottom_space_after,
-        title[:bottom_right].to_s,
-        bottom_right_char(border)
+        bg.(fg.(bottom_left_char(border))),
+        bg.(title[:bottom_left].to_s),
+        bg.(fg.(line_char(border) * bottom_space_before)),
+        bg.(title[:bottom_center].to_s),
+        bg.(fg.(line_char(border) * bottom_space_after)),
+        bg.(title[:bottom_right].to_s),
+        bg.(fg.(bottom_right_char(border)))
       ].join('')
     end
   end # TTY
