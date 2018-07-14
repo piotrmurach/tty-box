@@ -15,6 +15,8 @@
 [coverage]: https://coveralls.io/github/piotrmurach/tty-box
 [inchpages]: http://inch-ci.org/github/piotrmurach/tty-box
 
+![Box drawing](https://cdn.rawgit.com/piotrmurach/tty-box/master/assets/tty-box-drawing.png)
+
 > Draw various frames and boxes in your terminal interface.
 
 **TTY::Box** provides box drawing component for [TTY](https://github.com/piotrmurach/tty) toolkit.
