@@ -16,13 +16,13 @@ RSpec.describe TTY::Box, ":style option" do
         }
       }
     ) do
-      "Midnight Commander\n is the best"
+      "Midnight Commander\nis the best"
     end
 
     expect(box).to eq([
       "\e[1;1H\e[44m\e[93m╔\e[0m\e[0m\e[44m file1 \e[0m\e[44m\e[93m══════════\e[0m\e[0m\e[44m\e[93m═══════════\e[0m\e[0m\e[44m\e[93m╗\e[0m\e[0m",
-      "\e[2;1H\e[44m\e[93m║\e[0m\e[0m\e[44m\e[93mMidnight Commander\e[0m\e[0m\e[44m\e[93m          \e[0m\e[0m\e[2;30H\e[44m\e[93m║\e[0m\e[0m",
-      "\e[3;1H\e[44m\e[93m║\e[0m\e[0m\e[44m\e[93m is the best\e[0m\e[0m\e[44m\e[93m                \e[0m\e[0m\e[3;30H\e[44m\e[93m║\e[0m\e[0m",
+      "\e[2;1H\e[44m\e[93m║\e[0m\e[0m\e[44m\e[93mMidnight Commander          \e[0m\e[0m\e[2;30H\e[44m\e[93m║\e[0m\e[0m",
+      "\e[3;1H\e[44m\e[93m║\e[0m\e[0m\e[44m\e[93mis the best                 \e[0m\e[0m\e[3;30H\e[44m\e[93m║\e[0m\e[0m",
       "\e[4;1H\e[44m\e[93m╚\e[0m\e[0m\e[44m\e[93m══════════════\e[0m\e[0m\e[44m\e[93m══════════════\e[0m\e[0m\e[44m\e[93m╝\e[0m\e[0m"
     ].join)
   end

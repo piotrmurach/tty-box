@@ -70,13 +70,16 @@ module TTY
     # Create a frame
     #
     # @api public
-    def frame(top: 0, left: 0, width: 35, height: 3, title: {}, border: :light, style: {})
+    def frame(top: 0, left: 0, width: 35, height: 3, align: :left, padding: 0, title: {}, border: :light, style: {})
       output = []
       content = []
 
       if block_given?
-        wrapped = Strings.wrap(yield, width - 2)
-        content = wrapped.split("\n")
+        total_width = width - 2 - (2 * padding)
+        wrapped = Strings.wrap(yield, total_width)
+        aligned = Strings.align(wrapped, total_width, direction: align)
+        padded = Strings.pad(aligned, padding)
+        content = padded.split("\n")
       end
 
       fg, bg = *extract_style(style)
