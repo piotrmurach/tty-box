@@ -15,11 +15,11 @@
 [coverage]: https://coveralls.io/github/piotrmurach/tty-box
 [inchpages]: http://inch-ci.org/github/piotrmurach/tty-box
 
-![Box drawing](https://cdn.rawgit.com/piotrmurach/tty-box/master/assets/tty-box-drawing.png)
-
 > Draw various frames and boxes in your terminal interface.
 
 **TTY::Box** provides box drawing component for [TTY](https://github.com/piotrmurach/tty) toolkit.
+
+![Box drawing](https://cdn.rawgit.com/piotrmurach/tty-box/master/assets/tty-box-drawing.png)
 
 ## Installation
 
@@ -42,18 +42,25 @@ Or install it yourself as:
 * [1. Usage](#1-usage)
 * [2. Interface](#2-interface)
   * [2.1 frame](#21-frame)
-  * [2.2 :style](#22-style)
+  * [2.2 position](#22-position)
+  * [2.3 dimension](#23-dimension)
+  * [2.4 :style](#24-style)
 
 ## 1. Usage
 
+Using the `frame` method, you can draw a box in a terminal emulator at a specified location and dimensions:
+
 ```ruby
 box = TTY::Box.frame(
-  top: 0,
-  left: 0,
-  width: 35,
-  height: 4,
-  border: :thick
-)
+  top: 2,
+  left: 10,
+  width: 30,
+  height: 10,
+  border: :thick,
+  align: :center
+) do
+  "Drawing a box in terminal emulator"
+end
 
 print box
 ```
@@ -62,7 +69,33 @@ print box
 
 ### 2.1 frame
 
-### 2.2 `:style`
+Use block to provide content for the box:
+
+```ruby
+box = TTY::Box.frame(width: 30, height: 10) do
+  "Drawin a box in terminal emulator"
+end
+```
+
+### 2.2 position
+
+By default a box will be positioned in the top left corner of the terminal emulator. Use `:top` and `:left` keyword arguments to change this:
+
+```ruby
+TTY::Box.frame(top: 5, left: 10)
+```
+
+If you wish to center your box then consider using [tty-screen](https://github.com/piotrmurach/tty-screen) for gathering terminal screne size information.
+
+### 2.3 dimension
+
+At the very minimum a box requires two keyword arguments `:width` and `:height`:
+
+```ruby
+TTY::Box.frame(width: 30, height: 10)
+```
+
+### 2.4 `:style`
 
 By default drawing a box doesn't apply any styling. You can change this using the `:style` keyword with foreground `:fg` and background `:bg` keys for both the main content and the border:
 
