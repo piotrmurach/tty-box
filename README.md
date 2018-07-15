@@ -44,37 +44,62 @@ Or install it yourself as:
   * [2.1 frame](#21-frame)
   * [2.2 position](#22-position)
   * [2.3 dimension](#23-dimension)
-  * [2.4 :style](#24-style)
+  * [2.4 styling](#24-styling)
+  * [2.5 formatting](#25-formatting)
 
 ## 1. Usage
 
-Using the `frame` method, you can draw a box in a terminal emulator at a specified location and dimensions:
+Using the `frame` method, you can draw a box in a terminal emulator:
 
 ```ruby
 box = TTY::Box.frame(
-  top: 2,
-  left: 10,
   width: 30,
   height: 10,
-  border: :thick,
-  align: :center
+  align: :center,
+  padding: 3
 ) do
   "Drawing a box in terminal emulator"
 end
 
+```
+
+```ruby
 print box
+# =>
+# ┌────────────────────────────┐
+# │                            │
+# │                            │
+# │                            │
+# │     Drawing a box in       │
+# │     terminal emulator      │
+# │                            │
+# │                            │
+# │                            │
+# └────────────────────────────┘
 ```
 
 ## 2. Interface
 
 ### 2.1 frame
 
-Use block to provide content for the box:
+You can draw a box in the top left coerner of your terminal by using the `frame` method and providing at the very minimum the height and the width:
+
+```ruby
+box = TTY::Box.frame(width: 30, height: 10)
+
+print box
+```
+
+Then you can use [tty-cursor](https://github.com/piotrmurach/tty-cursor) to directly manipulate content to be displayed inside the box.
+
+Alternatively, you can also pass a block to provide a content for the box like so:
 
 ```ruby
 box = TTY::Box.frame(width: 30, height: 10) do
   "Drawin a box in terminal emulator"
 end
+
+print box
 ```
 
 ### 2.2 position
@@ -95,7 +120,7 @@ At the very minimum a box requires two keyword arguments `:width` and `:height`:
 TTY::Box.frame(width: 30, height: 10)
 ```
 
-### 2.4 `:style`
+### 2.4 styling
 
 By default drawing a box doesn't apply any styling. You can change this using the `:style` keyword with foreground `:fg` and background `:bg` keys for both the main content and the border:
 
@@ -108,6 +133,59 @@ style: {
     bg: :blue
   }
 }
+```
+
+### 2.5 formatting
+
+You can use `:align` keyword to format content either to be `:left`, `:center` or `:right` aligned:
+
+```ruby
+box = TTY::Box.frame(width: 30, height: 10, align: :center) do
+  "Drawing a box in terminal emulator"
+end
+```
+
+The above will create the following output in your terminal:
+
+```ruby
+print box
+# =>
+# ┌────────────────────────────┐
+# │ Drawing a box in terminal  │
+# │          emulator          │
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# └────────────────────────────┘
+```
+
+You can also use `:padding` keyword to further format the content:
+
+```ruby
+box = TTY::Box.frame(width: 30, height: 10, align: :center, padding: 3) do
+  "Drawing a box in terminal emulator"
+end
+```
+
+Here's an example output:
+
+```
+print box
+# =>
+# ┌────────────────────────────┐
+# │                            │
+# │                            │
+# │                            │
+# │     Drawing a box in       │
+# │     terminal emulator      │
+# │                            │
+# │                            │
+# │                            │
+# └────────────────────────────┘
+#
 ```
 
 ## Development
