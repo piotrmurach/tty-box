@@ -87,6 +87,10 @@ You can draw a box in the top left coerner of your terminal by using the `frame`
 ```ruby
 box = TTY::Box.frame(width: 30, height: 10)
 
+```
+
+which when printed will prodcue the following output in your terminal:
+
 ```ruby
 print box
 # =>
@@ -110,6 +114,9 @@ Alternatively, you can also pass a block to provide a content for the box like s
 box = TTY::Box.frame(width: 30, height: 10) do
   "Drawin a box in terminal emulator"
 end
+```
+
+which when printed will produce the following output in your terminal:
 
 ```ruby
 print box
@@ -188,7 +195,15 @@ print box
 # └────────────────────────────┘
 ```
 
-You can also use `:padding` keyword to further format the content:
+You can also use `:padding` keyword to further format the content using the following values:
+
+```ruby
+[1,3,1,3]  # => pad content left & right with 3 spaces and add 1 line above & below
+[1,3]      # => pad content left & right with 3 spaces and add 1 line above & below
+1          # => shorthand for [1,1,1,1]
+```
+
+For example, if you wish to pad content all around do:
 
 ```ruby
 box = TTY::Box.frame(width: 30, height: 10, align: :center, padding: 3) do
