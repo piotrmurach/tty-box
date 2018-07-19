@@ -87,7 +87,19 @@ You can draw a box in the top left coerner of your terminal by using the `frame`
 ```ruby
 box = TTY::Box.frame(width: 30, height: 10)
 
+```ruby
 print box
+# =>
+# ┌────────────────────────────┐
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# └────────────────────────────┘
 ```
 
 Then you can use [tty-cursor](https://github.com/piotrmurach/tty-cursor) to directly manipulate content to be displayed inside the box.
@@ -99,7 +111,19 @@ box = TTY::Box.frame(width: 30, height: 10) do
   "Drawin a box in terminal emulator"
 end
 
+```ruby
 print box
+# =>
+# ┌────────────────────────────┐
+# │Drawing a box in terminal   │
+# │emulator                    │
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# └────────────────────────────┘
 ```
 
 ### 2.2 position
@@ -110,7 +134,7 @@ By default a box will be positioned in the top left corner of the terminal emula
 TTY::Box.frame(top: 5, left: 10)
 ```
 
-If you wish to center your box then consider using [tty-screen](https://github.com/piotrmurach/tty-screen) for gathering terminal screne size information.
+If you wish to center your box then consider using [tty-screen](https://github.com/piotrmurach/tty-screen) for gathering terminal screen size information.
 
 ### 2.3 dimension
 
@@ -134,6 +158,8 @@ style: {
   }
 }
 ```
+
+The above style configuration will produce the result similar to the top demo, a MS-DOS look & feel window.
 
 ### 2.5 formatting
 
@@ -172,7 +198,7 @@ end
 
 Here's an example output:
 
-```
+```ruby
 print box
 # =>
 # ┌────────────────────────────┐
