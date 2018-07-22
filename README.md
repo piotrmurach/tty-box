@@ -44,8 +44,9 @@ Or install it yourself as:
   * [2.1 frame](#21-frame)
   * [2.2 position](#22-position)
   * [2.3 dimension](#23-dimension)
-  * [2.4 styling](#24-styling)
-  * [2.5 formatting](#25-formatting)
+  * [2.4 title](#24-title)
+  * [2.5 styling](#25-styling)
+  * [2.6 formatting](#26-formatting)
 
 ## 1. Usage
 
@@ -145,13 +146,39 @@ If you wish to center your box then consider using [tty-screen](https://github.c
 
 ### 2.3 dimension
 
-At the very minimum a box requires two keyword arguments `:width` and `:height`:
+At the very minimum a box requires to be given size by using two keyword arguments `:width` and `:height`:
 
 ```ruby
 TTY::Box.frame(width: 30, height: 10)
 ```
 
-### 2.4 styling
+### 2.4 title
+
+You can specify titles using the `:title` keyword and a hash value that contains one of the `:top_left`, `:top_center`, `:top_right`, `:bottom_left`, `:bottom_center`, `:bottom_right` keys and actual title as value. For example, to add titles to top left and bottmo right of the frame do:
+
+
+```ruby
+box = TTY::Box.frame(width: 30, height: 10, title: {top_left: 'TITLE', bottom_right: 'v1.0'})
+```
+
+which when printed in console will render the following:
+
+```ruby
+print box
+# =>
+# ┌TITLE───────────────────────┐
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# │                            │
+# └──────────────────────(v1.0)┘
+```
+
+### 2.5 styling
 
 By default drawing a box doesn't apply any styling. You can change this using the `:style` keyword with foreground `:fg` and background `:bg` keys for both the main content and the border:
 
@@ -168,7 +195,7 @@ style: {
 
 The above style configuration will produce the result similar to the top demo, a MS-DOS look & feel window.
 
-### 2.5 formatting
+### 2.6 formatting
 
 You can use `:align` keyword to format content either to be `:left`, `:center` or `:right` aligned:
 
