@@ -70,17 +70,13 @@ module TTY
     # Create a frame
     #
     # @api public
-    def frame(top: 0, left: 0, width: 35, height: 3, align: :left, padding: 0, title: {}, border: :light, style: {})
+    def frame(top: 0, left: 0, width: 35, height: 3, align: :left, padding: 0,
+              title: {}, border: :light, style: {})
       output = []
       content = []
-      pad = Strings::Padder.parse(padding)
 
       if block_given?
-        total_width = width - 2 - (pad.left + pad.right)
-        wrapped = Strings.wrap(yield, total_width)
-        aligned = Strings.align(wrapped, total_width, direction: align)
-        padded  = Strings.pad(aligned, padding)
-        content = padded.split("\n")
+        content = format(yield, width, padding, align)
       end
 
       fg, bg = *extract_style(style)
@@ -106,6 +102,21 @@ module TTY
       output << bottom_border(title, width, border, style)
 
       output.join
+    end
+
+    # Format content
+    #
+    # @return [Array[String]]
+    #
+    # @api private
+    def format(content, width, padding, align)
+      pad = Strings::Padder.parse(padding)
+      total_width = width - 2 - (pad.left + pad.right)
+
+      wrapped = Strings.wrap(content, total_width)
+      aligned = Strings.align(wrapped, total_width, direction: align)
+      padded  = Strings.pad(aligned, padding)
+      padded.split("\n")
     end
 
     # Convert style keywords into styling
