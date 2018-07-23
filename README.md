@@ -84,7 +84,7 @@ print box
 
 ### 2.1 frame
 
-You can draw a box in the top left coerner of your terminal by using the `frame` method and providing at the very minimum the height and the width:
+You can draw a box in the top left corner of your terminal window by using the `frame` method and providing at the very minimum the height and the width:
 
 ```ruby
 box = TTY::Box.frame(width: 30, height: 10)
@@ -109,7 +109,7 @@ print box
 
 Then you can use [tty-cursor](https://github.com/piotrmurach/tty-cursor) to directly manipulate content to be displayed inside the box.
 
-Alternatively, you can also pass a block to provide a content for the box like so:
+Alternatively, you can also pass a block to provide a content for the box:
 
 ```ruby
 box = TTY::Box.frame(width: 30, height: 10) do
@@ -136,13 +136,13 @@ print box
 
 ### 2.2 position
 
-By default a box will be positioned in the top left corner of the terminal emulator. Use `:top` and `:left` keyword arguments to change this:
+By default, a box will be positioned in the top left corner of the terminal emulator. Use `:top` and `:left` keyword arguments to change this:
 
 ```ruby
 TTY::Box.frame(top: 5, left: 10)
 ```
 
-If you wish to center your box then consider using [tty-screen](https://github.com/piotrmurach/tty-screen) for gathering terminal screen size information.
+If you wish to center your box within the terminal window then consider using [tty-screen](https://github.com/piotrmurach/tty-screen) for gathering terminal screen size information.
 
 ### 2.3 dimension
 
@@ -180,7 +180,7 @@ print box
 
 ### 2.5 border
 
-There two types of border `:light` and `:thick`. By default the `:light` border is used. This can be changed using the `:border` keyword:
+There are two types of border `:light` and `:thick`. By default the `:light` border is used. This can be changed using the `:border` keyword:
 
 ```ruby
 box = TTY::Box.new(width 30, height: 10, border: :thick)
