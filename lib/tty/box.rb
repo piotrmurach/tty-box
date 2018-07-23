@@ -4,6 +4,7 @@ require 'strings'
 require 'pastel'
 require 'tty-cursor'
 
+require_relative 'box/border'
 require_relative 'box/version'
 
 module TTY
@@ -75,6 +76,8 @@ module TTY
       output = []
       content = []
 
+      border = Border.parse(border)
+
       if block_given?
         content = format(yield, width, padding, align)
       end
@@ -82,11 +85,15 @@ module TTY
       fg, bg = *extract_style(style)
       border_fg, border_bg = *extract_style(style[:border] || {})
 
-      output << cursor.move_to(left, top)
-      output << top_border(title, width, border, style)
+      if border.top?
+        output << cursor.move_to(left, top)
+        output << top_border(title, width, border.type, style)
+      end
       (height - 2).times do |i|
-        output << cursor.move_to(left, top + i + 1)
-        output << border_bg.(border_fg.(pipe_char(border)))
+        if border.left?
+          output << cursor.move_to(left, top + i + 1)
+          output << border_bg.(border_fg.(pipe_char(border.type)))
+        end
         if content[i].nil?
           output << bg.(fg.(' ' * (width - 2))) if style[:fg] || style[:bg]
         else
@@ -95,11 +102,15 @@ module TTY
             output << bg.(fg.(' ' * (width - 2 - content[i].size)))
           end
         end
-        output << cursor.move_to(left + width - 1, top + i + 1)
-        output << border_bg.(border_fg.(pipe_char(border)))
+        if border.right?
+          output << cursor.move_to(left + width - 1, top + i + 1)
+          output << border_bg.(border_fg.(pipe_char(border.type)))
+        end
       end
-      output << cursor.move_to(left, top + height - 1)
-      output << bottom_border(title, width, border, style)
+      if border.bottom?
+        output << cursor.move_to(left, top + height - 1)
+        output << bottom_border(title, width, border.type, style)
+      end
 
       output.join
     end
