@@ -7,7 +7,7 @@ module TTY
       def self.parse(border)
         case border
         when Hash
-          new(border[:type],
+          new(border.fetch(:type, :light),
               border.fetch(:top, true),
               border.fetch(:left, true),
               border.fetch(:right, true),
