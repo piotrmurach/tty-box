@@ -45,8 +45,9 @@ Or install it yourself as:
   * [2.2 position](#22-position)
   * [2.3 dimension](#23-dimension)
   * [2.4 title](#24-title)
-  * [2.5 styling](#25-styling)
-  * [2.6 formatting](#26-formatting)
+  * [2.5 border](#25-border)
+  * [2.6 styling](#26-styling)
+  * [2.7 formatting](#27-formatting)
 
 ## 1. Usage
 
@@ -87,7 +88,6 @@ You can draw a box in the top left coerner of your terminal by using the `frame`
 
 ```ruby
 box = TTY::Box.frame(width: 30, height: 10)
-
 ```
 
 which when printed will prodcue the following output in your terminal:
@@ -154,7 +154,7 @@ TTY::Box.frame(width: 30, height: 10)
 
 ### 2.4 title
 
-You can specify titles using the `:title` keyword and a hash value that contains one of the `:top_left`, `:top_center`, `:top_right`, `:bottom_left`, `:bottom_center`, `:bottom_right` keys and actual title as value. For example, to add titles to top left and bottmo right of the frame do:
+You can specify titles using the `:title` keyword and a hash value that contains one of the `:top_left`, `:top_center`, `:top_right`, `:bottom_left`, `:bottom_center`, `:bottom_right` keys and actual title as value. For example, to add titles to top left and bottom right of the frame do:
 
 
 ```ruby
@@ -178,7 +178,38 @@ print box
 # └──────────────────────(v1.0)┘
 ```
 
-### 2.5 styling
+### 2.5 border
+
+There two types of border `:light` and `:thick`. By default the `:light` border is used. This can be changed using the `:border` keyword:
+
+```ruby
+box = TTY::Box.new(width 30, height: 10, border: :thick)
+```
+
+and printing the box out to console will produce:
+
+```ruby
+print box
+# =>
+# ╔════════════════════════════╗
+# ║                            ║
+# ║                            ║
+# ║                            ║
+# ║                            ║
+# ║                            ║
+# ║                            ║
+# ║                            ║
+# ║                            ║
+# ╚════════════════════════════╝
+```
+
+You can also selectively switch off border sides by passing options hash. For example to remove bottom border do:
+
+```ruby
+TTY::Box.new(width: 30, height: 10, border: {type: :thick, bottom: false})
+```
+
+### 2.6 styling
 
 By default drawing a box doesn't apply any styling. You can change this using the `:style` keyword with foreground `:fg` and background `:bg` keys for both the main content and the border:
 
@@ -195,7 +226,7 @@ style: {
 
 The above style configuration will produce the result similar to the top demo, a MS-DOS look & feel window.
 
-### 2.6 formatting
+### 2.7 formatting
 
 You can use `:align` keyword to format content either to be `:left`, `:center` or `:right` aligned:
 
