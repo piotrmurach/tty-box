@@ -4,6 +4,7 @@
 
 ### Changed
 * Change to stop positioning box without `:top` & `:left` coordinates
+* Change to load manually required files in gemspec without using git
 
 ## [v0.1.0] - 2018-07-23
 
