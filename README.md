@@ -136,11 +136,13 @@ print box
 
 ### 2.2 position
 
-By default, a box will be positioned in the top left corner of the terminal emulator. Use `:top` and `:left` keyword arguments to change this:
+By default, a box will not be positioned. To position your box absolutely within a terminal window use `:top` and `:left` keyword arguments:
 
 ```ruby
 TTY::Box.frame(top: 5, left: 10)
 ```
+
+This will place box 10 columns to the right and 5 lines down counting from the top left corner.
 
 If you wish to center your box within the terminal window then consider using [tty-screen](https://github.com/piotrmurach/tty-screen) for gathering terminal screen size information.
 
