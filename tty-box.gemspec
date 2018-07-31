@@ -13,9 +13,11 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://piotrmurach.github.io/tty"
   spec.license       = "MIT"
 
-  spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
-    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  end
+  spec.files  = Dir.glob('lib/**/*.rb') + Dir.glob('bin/*')
+  spec.files += Dir.glob('examples/*.rb') + Dir.glob('tasks/*.rake')
+  spec.files += Dir.glob('[A-Z]*') + Dir.glob('[a-z]*\.*')
+  spec.files.reject! { |f| f.match(%r{.lock$}) }
+
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
