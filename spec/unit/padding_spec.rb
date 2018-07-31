@@ -5,12 +5,12 @@ RSpec.describe TTY::Box, ':padding option' do
     end
 
     expect(box).to eq([
-      "┌────────────────────────────┐",
-      "│                            │",
-      "│ Drawing a box in terminal  │",
-      "│ emulator                   │",
-      "│                            │",
-      "└────────────────────────────┘"
+      "┌────────────────────────────┐\n",
+      "│                            │\n",
+      "│ Drawing a box in terminal  │\n",
+      "│ emulator                   │\n",
+      "│                            │\n",
+      "└────────────────────────────┘\n"
     ].join)
   end
 

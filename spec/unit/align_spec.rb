@@ -5,10 +5,10 @@ RSpec.describe TTY::Box, ':align option' do
     end
 
     expect(box).to eq([
-      "┌────────────────────────┐",
-      "│   Drawing a box in     │",
-      "│   terminal emulator    │",
-      "└────────────────────────┘"
+      "┌────────────────────────┐\n",
+      "│   Drawing a box in     │\n",
+      "│   terminal emulator    │\n",
+      "└────────────────────────┘\n"
     ].join)
   end
 

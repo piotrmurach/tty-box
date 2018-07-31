@@ -89,6 +89,7 @@ module TTY
       if border.top?
         output << cursor.move_to(left, top) if position
         output << top_border(title, width, border.type, style)
+        output << "\n" unless position
       end
       (height - 2).times do |i|
         if border.left?
@@ -107,10 +108,12 @@ module TTY
           output << cursor.move_to(left + width - 1, top + i + 1) if position
           output << border_bg.(border_fg.(pipe_char(border.type)))
         end
+        output << "\n" unless position
       end
       if border.bottom?
         output << cursor.move_to(left, top + height - 1) if position
         output << bottom_border(title, width, border.type, style)
+        output << "\n" unless position
       end
 
       output.join
