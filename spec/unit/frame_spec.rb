@@ -1,6 +1,17 @@
 RSpec.describe TTY::Box, '#frame' do
-  it "creates frame at a position with direct width & height values" do
+  it "creates frame with only  width & height values" do
     output = TTY::Box.frame(width: 35, height: 4)
+
+    expect(output).to eq([
+      "┌─────────────────────────────────┐",
+      "│                                 │",
+      "│                                 │",
+      "└─────────────────────────────────┘"
+    ].join)
+  end
+
+  it "creates frame at a position with direct width & height values" do
+    output = TTY::Box.frame(top: 0, left: 0, width: 35, height: 4)
 
     expect(output).to eq([
       "\e[1;1H┌─────────────────────────────────┐",
@@ -11,7 +22,7 @@ RSpec.describe TTY::Box, '#frame' do
   end
 
   it "displays content when block provided" do
-    output = TTY::Box.frame(width: 35, height: 4) do
+    output = TTY::Box.frame(top: 0, left: 0, width: 35, height: 4) do
       "Hello world!"
     end
 
@@ -24,7 +35,7 @@ RSpec.describe TTY::Box, '#frame' do
   end
 
   it "wraps content when exceeding width" do
-    box = TTY::Box.frame(width: 20, height: 4) do
+    box = TTY::Box.frame(top: 0, left: 0, width: 20, height: 4) do
       "Drawing a box in terminal emulator"
     end
 

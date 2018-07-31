@@ -1,6 +1,7 @@
 RSpec.describe TTY::Box, ':title option' do
   it "allows to specify top border titles"  do
     output = TTY::Box.frame(
+      top: 0, left: 0,
       width: 35, height: 4,
       title: {
         top_left: 'left',

@@ -71,10 +71,11 @@ module TTY
     # Create a frame
     #
     # @api public
-    def frame(top: 0, left: 0, width: 35, height: 3, align: :left, padding: 0,
+    def frame(top: nil, left: nil, width: 35, height: 3, align: :left, padding: 0,
               title: {}, border: :light, style: {})
       output = []
       content = []
+      position = top && left
 
       border = Border.parse(border)
 
@@ -86,16 +87,16 @@ module TTY
       border_fg, border_bg = *extract_style(style[:border] || {})
 
       if border.top?
-        output << cursor.move_to(left, top)
+        output << cursor.move_to(left, top) if position
         output << top_border(title, width, border.type, style)
       end
       (height - 2).times do |i|
         if border.left?
-          output << cursor.move_to(left, top + i + 1)
+          output << cursor.move_to(left, top + i + 1) if position
           output << border_bg.(border_fg.(pipe_char(border.type)))
         end
-        if content[i].nil?
-          output << bg.(fg.(' ' * (width - 2))) if style[:fg] || style[:bg]
+        if content[i].nil? && (style[:fg] || style[:bg] || !position)
+          output << bg.(fg.(' ' * (width - 2)))
         else
           output << bg.(fg.(content[i]))
           if style[:fg] || style[:bg]
@@ -103,12 +104,12 @@ module TTY
           end
         end
         if border.right?
-          output << cursor.move_to(left + width - 1, top + i + 1)
+          output << cursor.move_to(left + width - 1, top + i + 1) if position
           output << border_bg.(border_fg.(pipe_char(border.type)))
         end
       end
       if border.bottom?
-        output << cursor.move_to(left, top + height - 1)
+        output << cursor.move_to(left, top + height - 1) if position
         output << bottom_border(title, width, border.type, style)
       end
 

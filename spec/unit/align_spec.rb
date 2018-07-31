@@ -1,6 +1,19 @@
 RSpec.describe TTY::Box, ':align option' do
-  it "aligns content with the option" do
+  it "aligns content without positioning" do
     box = TTY::Box.frame(width: 26, height: 4, align: :center) do
+      "Drawing a box in terminal emulator"
+    end
+
+    expect(box).to eq([
+      "┌────────────────────────┐",
+      "│   Drawing a box in     │",
+      "│   terminal emulator    │",
+      "└────────────────────────┘"
+    ].join)
+  end
+
+  it "aligns content with the option" do
+    box = TTY::Box.frame(top: 0, left: 0, width: 26, height: 4, align: :center) do
       "Drawing a box in terminal emulator"
     end
 

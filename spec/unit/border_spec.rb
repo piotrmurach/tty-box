@@ -1,4 +1,18 @@
 RSpec.describe TTY::Box, ':border option' do
+  it "creates frame with double lines and no position" do
+    box = TTY::Box.frame(
+      width: 35, height: 4,
+      border: :thick
+    )
+
+    expect(box).to eq([
+      "╔═════════════════════════════════╗",
+      "║                                 ║",
+      "║                                 ║",
+      "╚═════════════════════════════════╝"
+    ].join)
+  end
+
   it "creates frame with double lines" do
     box = TTY::Box.frame(
       top: 0, left: 0,
@@ -16,6 +30,7 @@ RSpec.describe TTY::Box, ':border option' do
 
   it "creates frame with without top & bottom borders" do
     box = TTY::Box.frame(
+      top: 0, left: 0,
       width: 35, height: 4,
       border: {
         type: :thick,
@@ -32,6 +47,7 @@ RSpec.describe TTY::Box, ':border option' do
 
   it "creates frame without left & right borders" do
     box = TTY::Box.frame(
+      top: 0, left: 0,
       width: 35, height: 4,
       border: {
         left: false,

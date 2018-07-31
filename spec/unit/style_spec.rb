@@ -1,6 +1,8 @@
 RSpec.describe TTY::Box, ":style option" do
   it "applies styling to content and border" do
     box = TTY::Box.frame(
+      top: 0,
+      left: 0,
       width: 30,
       height: 4,
       border: :thick,

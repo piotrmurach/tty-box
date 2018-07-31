@@ -1,6 +1,21 @@
 RSpec.describe TTY::Box, ':padding option' do
-  it "padds internal content with with padding as integer" do
+  it "padds internal content without position arguments" do
     box = TTY::Box.frame(width: 30, height: 6, padding: 1) do
+      "Drawing a box in terminal emulator"
+    end
+
+    expect(box).to eq([
+      "┌────────────────────────────┐",
+      "│                            │",
+      "│ Drawing a box in terminal  │",
+      "│ emulator                   │",
+      "│                            │",
+      "└────────────────────────────┘"
+    ].join)
+  end
+
+  it "padds internal content with with padding as integer" do
+    box = TTY::Box.frame(top: 0, left: 0, width: 30, height: 6, padding: 1) do
       "Drawing a box in terminal emulator"
     end
 
@@ -15,7 +30,7 @@ RSpec.describe TTY::Box, ':padding option' do
   end
 
   it "padds internal content with padding as array" do
-    box = TTY::Box.frame(width: 30, height: 6, padding: [1,3,1,3]) do
+    box = TTY::Box.frame(top: 0, left: 0, width: 30, height: 6, padding: [1,3,1,3]) do
       "Drawing a box in terminal emulator"
     end
 
