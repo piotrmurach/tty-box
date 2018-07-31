@@ -154,6 +154,14 @@ At the very minimum a box requires to be given size by using two keyword argumen
 TTY::Box.frame(width: 30, height: 10)
 ```
 
+If you wish to create a box that depends on the terminal window size then consider using [tty-screen](https://github.com/piotrmurach/tty-screen) for gathering terminal screen size information.
+
+For example to print a box that spans the whole terminal window do:
+
+```ruby
+TTY::Box.frame(width: TTY::Screen.width, height: TTY::Screen.height)
+```
+
 ### 2.4 title
 
 You can specify titles using the `:title` keyword and a hash value that contains one of the `:top_left`, `:top_center`, `:top_right`, `:bottom_left`, `:bottom_center`, `:bottom_right` keys and actual title as value. For example, to add titles to top left and bottom right of the frame do:
