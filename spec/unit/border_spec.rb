@@ -62,6 +62,27 @@ RSpec.describe TTY::Box, ':border option' do
     ].join)
   end
 
+  it "creates frame with all corners changed to cross" do
+    box = TTY::Box.frame(
+      width: 10, height: 4,
+      border: {
+        top: :line,
+        top_left: :cross,
+        top_right: :cross,
+        bottom: :line,
+        bottom_left: :cross,
+        bottom_right: :cross
+      }
+    )
+
+    expect(box).to eq([
+      "┼────────┼\n",
+      "│        │\n",
+      "│        │\n",
+      "┼────────┼\n"
+    ].join)
+  end
+
   it "fails to recognise border option" do
     expect {
      TTY::Box.frame(width: 35, height: 4, border: [:unknown])
