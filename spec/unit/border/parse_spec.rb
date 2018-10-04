@@ -3,18 +3,26 @@
 RSpec.describe TTY::Box::Border, '.parse' do
   it "parses default border" do
     border = TTY::Box::Border.parse({})
+    top_border = [border.top_left, border.top, border.top_right]
+    bottom_border = [border.bottom_left, border.bottom, border.bottom_right]
 
-    actual = [border.type, border.top, border.right, border.bottom, border.left]
-
-    expect(actual).to eq([:light, :line, :pipe, :line, :pipe])
+    expect(border.type).to eq(:light)
+    expect(top_border).to eq([:corner_top_left, :line, :corner_top_right])
+    expect(bottom_border).to eq([:corner_bottom_left, :line, :corner_bottom_right])
+    expect(border.left).to eq(:pipe)
+    expect(border.right).to eq(:pipe)
   end
 
   it "parses only border type" do
     border = TTY::Box::Border.parse(:thick)
+    top_border = [border.top_left, border.top, border.top_right]
+    bottom_border = [border.bottom_left, border.bottom, border.bottom_right]
 
-    actual = [border.type, border.top, border.right, border.bottom, border.left]
-
-    expect(actual).to eq([:thick, :line, :pipe, :line, :pipe])
+    expect(border.type).to eq(:thick)
+    expect(top_border).to eq([:corner_top_left, :line, :corner_top_right])
+    expect(bottom_border).to eq([:corner_bottom_left, :line, :corner_bottom_right])
+    expect(border.left).to eq(:pipe)
+    expect(border.right).to eq(:pipe)
   end
 
   it "parses custom border" do

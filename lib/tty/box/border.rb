@@ -27,9 +27,14 @@ module TTY
       alias bottom? bottom
 
       def initialize(type: :light,
-        top: :line, top_left: true, top_right: true,
-        left: :pipe, right: :pipe,
-        bottom: :line, bottom_left: true, bottom_right: true)
+        top: :line,
+        top_left: :corner_top_left,
+        top_right: :corner_top_right,
+        left: :pipe,
+        right: :pipe,
+        bottom: :line,
+        bottom_left: :corner_bottom_left,
+        bottom_right: :corner_bottom_right)
 
         @type = type
         @top = top
