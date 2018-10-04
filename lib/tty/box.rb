@@ -16,6 +16,38 @@ module TTY
       thick: %w[╝ ╗ ╔ ╚ ╣ ╩ ╦ ╠ ═ ║ ╬]
     }.freeze
 
+    def bottom_right_char(border = :light)
+      BOX_CHARS[border][0]
+    end
+
+    def top_right_char(border = :light)
+      BOX_CHARS[border][1]
+    end
+
+    def top_left_char(border = :light)
+      BOX_CHARS[border][2]
+    end
+
+    def bottom_left_char(border = :light)
+      BOX_CHARS[border][3]
+    end
+
+    def divider_right_char(border = :light)
+      BOX_CHARS[border][4]
+    end
+
+    def divider_top_char(border = :light)
+      BOX_CHARS[border][6]
+    end
+
+    def divider_bottom_char(border = :light)
+      BOX_CHARS[border][5]
+    end
+
+    def divider_left_char(border = :light)
+      BOX_CHARS[border][7]
+    end
+
     def line_char(border = :light)
       BOX_CHARS[border][8]
     end
@@ -26,38 +58,6 @@ module TTY
 
     def cross_char(border = :light)
       BOX_CHARS[border][10]
-    end
-
-    def left_divider_char(border = :light)
-      BOX_CHARS[border][7]
-    end
-
-    def right_divider_char(border = :light)
-      BOX_CHARS[border][4]
-    end
-
-    def top_left_char(border = :light)
-      BOX_CHARS[border][2]
-    end
-
-    def top_divider_char(border = :light)
-      BOX_CHARS[border][6]
-    end
-
-    def top_right_char(border = :light)
-      BOX_CHARS[border][1]
-    end
-
-    def bottom_left_char(border = :light)
-      BOX_CHARS[border][3]
-    end
-
-    def bottom_divider_char(border = :light)
-      BOX_CHARS[border][5]
-    end
-
-    def bottom_right_char(border = :light)
-      BOX_CHARS[border][0]
     end
 
     def cursor
