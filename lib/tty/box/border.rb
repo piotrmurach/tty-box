@@ -7,13 +7,9 @@ module TTY
       def self.parse(border)
         case border
         when Hash
-          new(border.fetch(:type, :light),
-              border.fetch(:top, true),
-              border.fetch(:left, true),
-              border.fetch(:right, true),
-              border.fetch(:bottom, true))
+          new(border)
         when *TTY::Box::BOX_CHARS.keys
-          new(border, true, true, true, true)
+          new(type: border)
         else
           raise ArgumentError,
                 "Wrong value `#{border}` for :border configuration option"
@@ -27,7 +23,7 @@ module TTY
       alias right? right
       alias bottom? bottom
 
-      def initialize(type, top, left, right, bottom)
+      def initialize(type: :light, top: true, left: true, right: true, bottom: true)
         @type = type
         @top = top
         @left = left
