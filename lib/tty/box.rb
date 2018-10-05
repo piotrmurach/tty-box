@@ -32,19 +32,19 @@ module TTY
       BOX_CHARS[border][3]
     end
 
-    def divider_right_char(border = :light)
+    def divider_left_char(border = :light)
       BOX_CHARS[border][4]
     end
 
-    def divider_top_char(border = :light)
-      BOX_CHARS[border][6]
-    end
-
-    def divider_bottom_char(border = :light)
+    def divider_up_char(border = :light)
       BOX_CHARS[border][5]
     end
 
-    def divider_left_char(border = :light)
+    def divider_down_char(border = :light)
+      BOX_CHARS[border][6]
+    end
+
+    def divider_right_char(border = :light)
       BOX_CHARS[border][7]
     end
 

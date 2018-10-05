@@ -66,10 +66,8 @@ RSpec.describe TTY::Box, ':border option' do
     box = TTY::Box.frame(
       width: 10, height: 4,
       border: {
-        top: :line,
         top_left: :cross,
         top_right: :cross,
-        bottom: :line,
         bottom_left: :cross,
         bottom_right: :cross
       }
@@ -80,6 +78,25 @@ RSpec.describe TTY::Box, ':border option' do
       "│        │\n",
       "│        │\n",
       "┼────────┼\n"
+    ].join)
+  end
+
+  it "creates frame with all corners changed to dividers" do
+    box = TTY::Box.frame(
+      width: 10, height: 4,
+      border: {
+        top_left: :divider_down,
+        top_right: :divider_left,
+        bottom_left: :divider_right,
+        bottom_right: :divider_up
+      }
+    ) { "hello" }
+
+    expect(box).to eq([
+      "┬────────┤\n",
+      "│hello   │\n",
+      "│        │\n",
+      "├────────┴\n"
     ].join)
   end
 
