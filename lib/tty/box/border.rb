@@ -6,6 +6,20 @@ module TTY
     #
     # @api private
     class Border
+      BORDER_VALUES = [
+        :corner_bottom_right,
+        :corner_top_right,
+        :corner_top_left,
+        :corner_bottom_left,
+        :divider_left,
+        :divider_up,
+        :divider_down,
+        :divider_right,
+        :line,
+        :pipe,
+        :cross
+      ].freeze
+
       def self.parse(border)
         case border
         when Hash
@@ -27,24 +41,35 @@ module TTY
       alias bottom? bottom
 
       def initialize(type: :light,
-        top: :line,
-        top_left: :corner_top_left,
-        top_right: :corner_top_right,
-        left: :pipe,
-        right: :pipe,
-        bottom: :line,
-        bottom_left: :corner_bottom_left,
-        bottom_right: :corner_bottom_right)
+                     top: :line,
+                     top_left: :corner_top_left,
+                     top_right: :corner_top_right,
+                     left: :pipe,
+                     right: :pipe,
+                     bottom: :line,
+                     bottom_left: :corner_bottom_left,
+                     bottom_right: :corner_bottom_right)
 
-        @type = type
-        @top = top
-        @top_left = top_left
-        @top_right = top_right
-        @left = left
-        @right = right
-        @bottom = bottom
-        @bottom_left = bottom_left
-        @bottom_right = bottom_right
+        @type         = type
+        @top          = check_name(:top, top)
+        @top_left     = check_name(:top_left, top_left)
+        @top_right    = check_name(:top_right, top_right)
+        @left         = check_name(:left, left)
+        @right        = check_name(:right, right)
+        @bottom       = check_name(:bottom, bottom)
+        @bottom_left  = check_name(:bottom_left, bottom_left)
+        @bottom_right = check_name(:bottom_right, bottom_right)
+      end
+
+      private
+
+      # Check if border values name is allowed
+      # @api private
+      def check_name(key, value)
+        unless (BORDER_VALUES.include?(:"#{value}") || [true, false].include?(value))
+          raise ArgumentError, "Invalid border value: '#{value}' for #{key.inspect}"
+        end
+        value
       end
     end # Border
   end # Box

@@ -83,6 +83,12 @@ RSpec.describe TTY::Box, ':border option' do
     ].join)
   end
 
+  it "fails to recognise border value" do
+    expect {
+      TTY::Box.frame(border: {left: :unknown})
+    }.to raise_error(ArgumentError, "Invalid border value: 'unknown' for :left")
+  end
+
   it "fails to recognise border option" do
     expect {
      TTY::Box.frame(width: 35, height: 4, border: [:unknown])

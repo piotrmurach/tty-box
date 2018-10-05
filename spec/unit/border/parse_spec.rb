@@ -42,4 +42,20 @@ RSpec.describe TTY::Box::Border, '.parse' do
     expect(top_border).to eq([:cross, true, :cross])
     expect(bottom_border).to eq([:cross, true, :cross])
   end
+
+  it "parses divider values" do
+    border = TTY::Box::Border.parse({
+      top_left: :divider_right,
+      top_right: :divider_left,
+      bottom_left: :divider_down,
+      bottom_right: :divider_up
+    })
+
+    top_border = [border.top_left, border.top, border.top_right]
+    bottom_border = [border.bottom_left, border.bottom, border.bottom_right]
+
+    expect(border.type).to eq(:light)
+    expect(top_border).to eq([:divider_right, :line, :divider_left])
+    expect(bottom_border).to eq([:divider_down, :line, :divider_up])
+  end
 end
