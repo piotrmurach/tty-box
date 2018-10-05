@@ -220,14 +220,14 @@ print box
 You can also selectively specify and turn off border parts by passing a hash with a `:border` key. The border parts are:
 
 ```
-#                 :top
-#    :top_left ┌────────┐ :top_right
-#              │        │
-#        :left │        │ :right
-#              │        │
-# :bottom_left └────────┘  :bottom_right
-#               :bottom
-``
+                 :top
+    :top_left ┌────────┐ :top_right
+              │        │
+        :left │        │ :right
+              │        │
+ :bottom_left └────────┘ :bottom_right
+               :bottom
+```
 
 The following are available border parts values:
 
