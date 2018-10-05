@@ -217,10 +217,66 @@ print box
 # ╚════════════════════════════╝
 ```
 
-You can also selectively switch off border sides by passing options hash. For example to remove bottom border do:
+You can also selectively specify and turn off border parts by passing a hash with a `:border` key. The border parts are:
+
+```
+#                 :top
+#    :top_left ┌────────┐ :top_right
+#              │        │
+#        :left │        │ :right
+#              │        │
+# :bottom_left └────────┘  :bottom_right
+#               :bottom
+``
+
+The following are available border parts values:
+
+| Border values        | ASCII | Unicode |
+| -------------------- |:-----:|:-------:|
+| :line                | `-`   | `─`     |
+| :pipe                | `|`   | `│`     |
+| :cross               | `+`   | `┼`     |
+| :divider_up          | `+`   | `┴`     |
+| :divider_down        | `+`   | `┬`     |
+| :divider_left        | `+`   | `┤`     |
+| :divider_right       | `+`   | `├`     |
+| :corner_top_left     | `+`   | `┌`     |
+| :corner_top_right    | `+`   | `┐`     |
+| :corner_bottom_left  | `+`   | `└`     |
+| :corner_bottom_right | `+`   | `┘`     |
+
+For example, to change all box corners to be a `:cross` do:
 
 ```ruby
-TTY::Box.new(width: 30, height: 10, border: {type: :thick, bottom: false})
+box = TTY::Box.frame(
+  width: 10, height: 4,
+  border: {
+    top_left: :cross,
+    top_right: :cross,
+    bottom_left: :cross,
+    bottom_right: :cross
+  }
+)
+```
+
+```ruby
+print box
+# =>
+# ┼────────┼
+# │        │
+# │        │
+# ┼────────┼
+```
+
+If you want to remoe a given border element as a value use `false`. For example to remove bottom border do:
+
+```ruby
+TTY::Box.new(
+  width: 30, height: 10,
+  border: {
+    type: :thick,
+    bottom: false
+  })
 ```
 
 ### 2.6 styling
