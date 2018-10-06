@@ -31,7 +31,7 @@ RSpec.describe TTY::Box, ':border option' do
   it "creates frame with without top & bottom borders" do
     box = TTY::Box.frame(
       top: 0, left: 0,
-      width: 35, height: 4,
+      width: 15, height: 4,
       border: {
         type: :thick,
         top: false,
@@ -40,15 +40,15 @@ RSpec.describe TTY::Box, ':border option' do
     ) { "Hello Piotr!" }
 
     expect(box).to eq([
-      "\e[2;1H║Hello Piotr!                     \e[2;35H║",
-      "\e[3;1H║\e[3;35H║",
+      "\e[2;1H║Hello Piotr! \e[2;15H║",
+      "\e[3;1H║\e[3;15H║",
     ].join)
   end
 
   it "creates frame without left & right borders" do
     box = TTY::Box.frame(
       top: 0, left: 0,
-      width: 35, height: 4,
+      width: 15, height: 4,
       border: {
         left: false,
         right: false
@@ -56,9 +56,10 @@ RSpec.describe TTY::Box, ':border option' do
     ) { "Hello Piotr!" }
 
     expect(box).to eq([
-      "\e[1;1H┌─────────────────────────────────┐",
-      "Hello Piotr!                     ",
-      "\e[4;1H└─────────────────────────────────┘"
+      "\e[1;1H───────────────",
+      "\e[2;1HHello Piotr! ",
+      "\e[3;1H",
+      "\e[4;1H───────────────"
     ].join)
   end
 

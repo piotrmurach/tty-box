@@ -92,8 +92,8 @@ module TTY
         output << "\n" unless position
       end
       (height - 2).times do |i|
+        output << cursor.move_to(left, top + i + 1) if position
         if border.left?
-          output << cursor.move_to(left, top + i + 1) if position
           output << border_bg.(border_fg.(pipe_char(border.type)))
         end
         if content[i].nil? && (style[:fg] || style[:bg] || !position)
@@ -156,8 +156,8 @@ module TTY
                         title[:top_right].to_s.size
       fg, bg = *extract_style(style[:border] || {})
 
-      top_left = send(:"#{border.top_left}_char", border.type)
-      top_right = send(:"#{border.top_right}_char", border.type)
+      top_left = border.top_left? && border.left? ? send(:"#{border.top_left}_char", border.type) : ""
+      top_right = border.top_right? && border.right? ? send(:"#{border.top_right}_char", border.type) : ""
 
       top_space_left   = width - top_titles_size - top_left.size - top_right.size
       top_space_before = top_space_left / 2
@@ -184,8 +184,9 @@ module TTY
                            title[:bottom_center].to_s.size +
                            title[:bottom_right].to_s.size
       fg, bg = *extract_style(style[:border] || {})
-      bottom_left  = send(:"#{border.bottom_left}_char", border.type)
-      bottom_right = send(:"#{border.bottom_right}_char", border.type)
+
+      bottom_left  = border.bottom_left? && border.left? ? send(:"#{border.bottom_left}_char", border.type) : ""
+      bottom_right = border.bottom_right? && border.right? ? send(:"#{border.bottom_right}_char", border.type) : ""
 
       bottom_space_left = width - bottom_titles_size -
                           bottom_left.size - bottom_right.size

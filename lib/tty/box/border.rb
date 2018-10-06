@@ -39,6 +39,10 @@ module TTY
       alias left? left
       alias right? right
       alias bottom? bottom
+      alias top_left? top_left
+      alias top_right? top_right
+      alias bottom_left? bottom_left
+      alias bottom_right? bottom_right
 
       def initialize(type: :light,
                      top: :line,
