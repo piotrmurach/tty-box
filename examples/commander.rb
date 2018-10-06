@@ -1,4 +1,6 @@
-require 'tty-box'
+# frozen_string_literal: true
+
+require_relative '../lib/tty-box'
 
 print TTY::Cursor.clear_screen
 
