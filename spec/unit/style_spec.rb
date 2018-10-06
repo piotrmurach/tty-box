@@ -28,4 +28,48 @@ RSpec.describe TTY::Box, ":style option" do
       "\e[4;1H\e[44m\e[93m╚\e[0m\e[0m\e[44m\e[93m══════════════\e[0m\e[0m\e[44m\e[93m══════════════\e[0m\e[0m\e[44m\e[93m╝\e[0m\e[0m"
     ].join)
   end
+
+  it "creates frame without corners and only color fill" do
+    box = TTY::Box.frame(
+      width: 10, height: 4,
+      border: {
+        top_left: false,
+        top_right: false,
+        bottom_left: false,
+        bottom_right: false,
+      },
+      style: {
+        fg: :bright_yellow,
+        bg: :blue,
+      }
+    )
+
+    expect(box).to eq([
+      "──────────\n",
+      "│\e[44m\e[93m        \e[0m\e[0m│\n",
+      "│\e[44m\e[93m        \e[0m\e[0m│\n",
+      "──────────\n"
+    ].join)
+  end
+
+  it "creates frame without left & right borders and only color fill" do
+    box = TTY::Box.frame(
+      width: 10, height: 4,
+      border: {
+        left: false,
+        right: false
+      },
+      style: {
+        fg: :bright_yellow,
+        bg: :blue,
+      }
+    )
+
+    expect(box).to eq([
+      "──────────\n",
+      "\e[44m\e[93m          \e[0m\e[0m\n",
+      "\e[44m\e[93m          \e[0m\e[0m\n",
+      "──────────\n"
+    ].join)
+  end
 end

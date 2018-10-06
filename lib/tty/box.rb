@@ -78,6 +78,8 @@ module TTY
       position = top && left
 
       border = Border.parse(border)
+      left_size  = border.left? ? 1 : 0
+      right_size = border.right ? 1 : 0
 
       if block_given?
         content = format(yield, width, padding, align)
@@ -91,17 +93,20 @@ module TTY
         output << top_border(title, width, border, style)
         output << "\n" unless position
       end
+
       (height - 2).times do |i|
         output << cursor.move_to(left, top + i + 1) if position
         if border.left?
           output << border_bg.(border_fg.(pipe_char(border.type)))
         end
         if content[i].nil? && (style[:fg] || style[:bg] || !position)
-          output << bg.(fg.(' ' * (width - 2)))
+          content_size = width - left_size - right_size
+          output << bg.(fg.(' ' * content_size))
         else
           output << bg.(fg.(content[i]))
           if style[:fg] || style[:bg]
-            output << bg.(fg.(' ' * (width - 2 - content[i].size)))
+            content_size = width - left_size - right_size - content[i].size
+            output << bg.(fg.(' ' * content_size))
           end
         end
         if border.right?
@@ -110,6 +115,7 @@ module TTY
         end
         output << "\n" unless position
       end
+
       if border.bottom?
         output << cursor.move_to(left, top + height - 1) if position
         output << bottom_border(title, width, border, style)
