@@ -194,7 +194,7 @@ print box
 
 ### 2.5 border
 
-There are two types of border `:light` and `:thick`. By default the `:light` border is used. This can be changed using the `:border` keyword:
+There are three types of border `:ascii`, `:light`, `:thick`. By default the `:light` border is used. This can be changed using the `:border` keyword:
 
 ```ruby
 box = TTY::Box.new(width 30, height: 10, border: :thick)
@@ -231,19 +231,19 @@ You can also selectively specify and turn off border parts by passing a hash wit
 
 The following are available border parts values:
 
-| Border values        | ASCII | Unicode |
-| -------------------- |:-----:|:-------:|
-| :line                | `-`   | `─`     |
-| :pipe                | `|`   | `│`     |
-| :cross               | `+`   | `┼`     |
-| :divider_up          | `+`   | `┴`     |
-| :divider_down        | `+`   | `┬`     |
-| :divider_left        | `+`   | `┤`     |
-| :divider_right       | `+`   | `├`     |
-| :corner_top_left     | `+`   | `┌`     |
-| :corner_top_right    | `+`   | `┐`     |
-| :corner_bottom_left  | `+`   | `└`     |
-| :corner_bottom_right | `+`   | `┘`     |
+| Border values        | ASCII | Unicode Light | Unicode Thick |
+| -------------------- |:-----:|:-------------:|:-------------:|
+| :line                | `-`   | `─`           | `═`           |
+| :pipe                | `\|`  | `\│`          | `\║`          |
+| :cross               | `+`   | `┼`           | `╬`           |
+| :divider_up          | `+`   | `┴`           | `╩`           |
+| :divider_down        | `+`   | `┬`           | `╦`           |
+| :divider_left        | `+`   | `┤`           | `╣`           |
+| :divider_right       | `+`   | `├`           | `╠`           |
+| :corner_top_left     | `+`   | `┌`           | `╔`           |
+| :corner_top_right    | `+`   | `┐`           | `╗`           |
+| :corner_bottom_left  | `+`   | `└`           | `╚`           |
+| :corner_bottom_right | `+`   | `┘`           | `╝`           |
 
 For example, to change all box corners to be a `:cross` do:
 
