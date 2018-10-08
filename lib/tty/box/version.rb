@@ -2,6 +2,6 @@
 
 module TTY
   module Box
-    VERSION = "0.2.1"
+    VERSION = "0.3.0"
   end # Box
 end # TTY
