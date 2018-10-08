@@ -101,16 +101,16 @@ module TTY
         if border.left?
           output << border_bg.(border_fg.(pipe_char(border.type)))
         end
-        if content[i].nil? && (style[:fg] || style[:bg] || !position)
-          content_size = width - left_size - right_size
-          output << bg.(fg.(' ' * content_size))
-        else
+
+        content_size = width - left_size - right_size
+        unless content[i].nil?
           output << bg.(fg.(content[i]))
-          if style[:fg] || style[:bg]
-            content_size = width - left_size - right_size - content[i].size
-            output << bg.(fg.(' ' * content_size))
-          end
+          content_size -= content[i].size
         end
+        if style[:fg] || style[:bg] || !position # something to color
+          output << bg.(fg.(' ' * content_size))
+        end
+
         if border.right?
           if position
             output << cursor.move_to(left + width - right_size, top + i + top_size)
