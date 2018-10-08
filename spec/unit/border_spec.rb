@@ -13,7 +13,7 @@ RSpec.describe TTY::Box, ':border option' do
     ].join)
   end
 
-  it "creates frame with double lines" do
+  it "creates frame with double lines and absolute position" do
     box = TTY::Box.frame(
       top: 0, left: 0,
       width: 35, height: 4,
@@ -25,6 +25,20 @@ RSpec.describe TTY::Box, ':border option' do
       "\e[2;1H║\e[2;35H║",
       "\e[3;1H║\e[3;35H║",
       "\e[4;1H╚═════════════════════════════════╝"
+    ].join)
+  end
+
+  it "creates an ASCII box" do
+    box = TTY::Box.frame(
+      width: 10, height: 4,
+      border: :ascii
+    )
+
+    expect(box).to eq([
+      "+--------+\n",
+      "|        |\n",
+      "|        |\n",
+      "+--------+\n",
     ].join)
   end
 

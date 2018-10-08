@@ -12,6 +12,7 @@ module TTY
     module_function
 
     BOX_CHARS = {
+      ascii: %w[+ + + + + + + + - | +],
       light: %w[┘ ┐ ┌ └ ┤ ┴ ┬ ├ ─ │ ┼],
       thick: %w[╝ ╗ ╔ ╚ ╣ ╩ ╦ ╠ ═ ║ ╬]
     }.freeze
