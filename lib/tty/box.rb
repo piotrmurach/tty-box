@@ -112,7 +112,9 @@ module TTY
           end
         end
         if border.right?
-          output << cursor.move_to(left + width - left_size, top + i + top_size) if position
+          if position
+            output << cursor.move_to(left + width - right_size, top + i + top_size)
+          end
           output << border_bg.(border_fg.(pipe_char(border.type)))
         end
         output << "\n" unless position
