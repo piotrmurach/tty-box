@@ -93,4 +93,29 @@ RSpec.describe TTY::Box, ":style option" do
       "│\e[44m\e[93m        \e[0m\e[0m│\n",
     ].join)
   end
+
+  it "creates box without top & left borders and only color fill" do
+    box = TTY::Box.frame(
+      width: 10, height: 4,
+      border: {
+        top: false,
+        left: false
+      },
+      style: {
+        fg: :bright_yellow,
+        bg: :blue,
+        border: {
+          fg: :bright_yellow,
+          bg: :blue
+        }
+      }
+    )
+
+    expect(box).to eq([
+      "\e[44m\e[93m         \e[0m\e[0m\e[44m\e[93m│\e[0m\e[0m\n",
+      "\e[44m\e[93m         \e[0m\e[0m\e[44m\e[93m│\e[0m\e[0m\n",
+      "\e[44m\e[93m         \e[0m\e[0m\e[44m\e[93m│\e[0m\e[0m\n",
+      "\e[44m\e[93m────\e[0m\e[0m\e[44m\e[93m─────\e[0m\e[0m\e[44m\e[93m┘\e[0m\e[0m\n"
+    ].join)
+  end
 end
