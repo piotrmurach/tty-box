@@ -197,7 +197,7 @@ print box
 There are three types of border `:ascii`, `:light`, `:thick`. By default the `:light` border is used. This can be changed using the `:border` keyword:
 
 ```ruby
-box = TTY::Box.new(width 30, height: 10, border: :thick)
+box = TTY::Box.frame(width: 30, height: 10, border: :thick)
 ```
 
 and printing the box out to console will produce:
