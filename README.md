@@ -268,7 +268,7 @@ print box
 # ┼────────┼
 ```
 
-If you want to remoe a given border element as a value use `false`. For example to remove bottom border do:
+If you want to remove a given border element as a value use `false`. For example to remove bottom border do:
 
 ```ruby
 TTY::Box.new(
