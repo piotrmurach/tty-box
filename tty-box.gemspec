@@ -6,8 +6,7 @@ Gem::Specification.new do |spec|
   spec.name          = "tty-box"
   spec.version       = TTY::Box::VERSION
   spec.authors       = ["Piotr Murach"]
-  spec.email         = [""]
-
+  spec.email         = ["me@piotrmurach.com"]
   spec.summary       = %q{Draw various frames and boxes in your terminal interface.}
   spec.description   = %q{Draw various frames and boxes in your terminal interface.}
   spec.homepage      = "https://piotrmurach.github.io/tty"
@@ -19,11 +18,13 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.required_ruby_version = '>= 2.0.0'
+
   spec.add_dependency 'pastel', '~> 0.7.2'
-  spec.add_dependency 'tty-cursor', '~> 0.6.0'
+  spec.add_dependency 'tty-cursor', '~> 0.7'
   spec.add_dependency 'strings', '~> 0.1.4'
 
-  spec.add_development_dependency "bundler", ">= 1.16"
+  spec.add_development_dependency "bundler", ">= 1.5"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec", "~> 3.0"
 end
