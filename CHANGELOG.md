@@ -1,5 +1,11 @@
 # Change log
 
+## [v0.4.0] - 2019-06-05
+
+### Changed
+* Change gemspec to require Ruby >= 2.0.0
+* Change to update tty-cursor dependency
+
 ## [v0.3.0] - 2018-10-08
 
 ### Added
@@ -7,7 +13,7 @@
 * Add :ascii border type for drawing ASCII boxes
 
 ### Fixed
-* Fix box color fill to corretly recognise missing borders and match the height and width
+* Fix box color fill to correctly recognise missing borders and match the height and width
 * Fix absolute content positioning when borders are missing
 
 ## [v0.2.1] - 2018-09-10
@@ -25,6 +31,7 @@
 
 * Initial implementation and release
 
+[v0.4.0]: https://github.com/piotrmurach/tty-box/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/piotrmurach/tty-box/compare/v0.2.1...v0.3.0
 [v0.2.1]: https://github.com/piotrmurach/tty-box/compare/v0.2.0...v0.2.1
 [v0.2.0]: https://github.com/piotrmurach/tty-box/compare/v0.1.0...v0.2.0
