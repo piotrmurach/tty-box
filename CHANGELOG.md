@@ -6,6 +6,9 @@
 * Change gemspec to require Ruby >= 2.0.0
 * Change to update tty-cursor dependency
 
+### Fixed
+* Fix issue with displaying box with colored content
+
 ## [v0.3.0] - 2018-10-08
 
 ### Added
