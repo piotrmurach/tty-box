@@ -46,4 +46,16 @@ RSpec.describe TTY::Box, '#frame' do
       "\e[4;1H└──────────────────┘"
     ].join)
   end
+
+  it "correctly displays colored content" do
+    box = TTY::Box.frame(width: 35, height: 3) do
+      Pastel.new.green.on_red("Hello world!")
+    end
+
+    expect(box).to eq([
+      "┌─────────────────────────────────┐\n",
+      "│\e[32;41mHello world!\e[0m                     │\n",
+      "└─────────────────────────────────┘\n"
+    ].join)
+  end
 end

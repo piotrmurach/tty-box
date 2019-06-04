@@ -106,7 +106,7 @@ module TTY
         content_size = width - left_size - right_size
         unless content[i].nil?
           output << bg.(fg.(content[i]))
-          content_size -= content[i].size
+          content_size -= Strings::ANSI.sanitize(content[i]).size
         end
         if style[:fg] || style[:bg] || !position # something to color
           output << bg.(fg.(' ' * content_size))
