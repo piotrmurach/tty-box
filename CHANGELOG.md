@@ -1,5 +1,13 @@
 # Change log
 
+## [v0.4.1] - 2019-08-28
+
+### Added
+* Add example to demonstrate different line endings
+
+### Fixed
+* Fix to handle different line endings
+
 ## [v0.4.0] - 2019-06-05
 
 ### Changed
@@ -34,6 +42,7 @@
 
 * Initial implementation and release
 
+[v0.4.1]: https://github.com/piotrmurach/tty-box/compare/v0.4.0...v0.4.1
 [v0.4.0]: https://github.com/piotrmurach/tty-box/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/piotrmurach/tty-box/compare/v0.2.1...v0.3.0
 [v0.2.1]: https://github.com/piotrmurach/tty-box/compare/v0.2.0...v0.2.1
