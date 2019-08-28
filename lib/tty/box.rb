@@ -11,6 +11,10 @@ module TTY
   module Box
     module_function
 
+    NEWLINE = "\n"
+
+    LINE_BREAK = %r{\r\n|\r|\n}.freeze
+
     BOX_CHARS = {
       ascii: %w[+ + + + + + + + - | +],
       light: %w[┘ ┐ ┌ └ ┤ ┴ ┬ ├ ─ │ ┼],
@@ -76,6 +80,7 @@ module TTY
               title: {}, border: :light, style: {})
       output = []
       content = []
+      sep = NEWLINE
       position = top && left
 
       border = Border.parse(border)
@@ -85,7 +90,9 @@ module TTY
       right_size  = border.right ? 1 : 0
 
       if block_given?
-        content = format(yield, width, padding, align)
+        str = yield
+        sep = str[LINE_BREAK] || NEWLINE # infer line break
+        content = format(str, width, padding, align)
       end
 
       fg, bg = *extract_style(style)
@@ -94,7 +101,7 @@ module TTY
       if border.top?
         output << cursor.move_to(left, top) if position
         output << top_border(title, width, border, style)
-        output << "\n" unless position
+        output << sep unless position
       end
 
       (height - top_size - bottom_size).times do |i|
@@ -106,7 +113,8 @@ module TTY
         content_size = width - left_size - right_size
         unless content[i].nil?
           output << bg.(fg.(content[i]))
-          content_size -= Strings::ANSI.sanitize(content[i]).size
+          size = Strings::ANSI.sanitize(content[i]).scan(/[[:print:]]/).join.size
+          content_size -= size
         end
         if style[:fg] || style[:bg] || !position # something to color
           output << bg.(fg.(' ' * content_size))
@@ -118,13 +126,13 @@ module TTY
           end
           output << border_bg.(border_fg.(pipe_char(border.type)))
         end
-        output << "\n" unless position
+        output << sep unless position
       end
 
       if border.bottom?
         output << cursor.move_to(left, top + height - bottom_size) if position
         output << bottom_border(title, width, border, style)
-        output << "\n" unless position
+        output << sep unless position
       end
 
       output.join
@@ -138,11 +146,12 @@ module TTY
     def format(content, width, padding, align)
       pad = Strings::Padder.parse(padding)
       total_width = width - 2 - (pad.left + pad.right)
+      sep = content[LINE_BREAK] || NEWLINE # infer line break
 
       wrapped = Strings.wrap(content, total_width)
       aligned = Strings.align(wrapped, total_width, direction: align)
       padded  = Strings.pad(aligned, padding)
-      padded.split("\n")
+      padded.split(sep)
     end
 
     # Convert style keywords into styling

@@ -1,4 +1,6 @@
-RSpec.describe TTY::Box, '#frame' do
+# frozen_string_literal: true
+
+RSpec.describe TTY::Box, "#frame" do
   it "creates frame with only  width & height values" do
     output = TTY::Box.frame(width: 35, height: 4)
 
@@ -56,6 +58,25 @@ RSpec.describe TTY::Box, '#frame' do
       "┌─────────────────────────────────┐\n",
       "│\e[32;41mHello world!\e[0m                     │\n",
       "└─────────────────────────────────┘\n"
+    ].join)
+  end
+
+  it "handles \r\n line breaks" do
+    box = TTY::Box.frame(
+          width: 29,
+          height: 7
+        ) do
+      "Closes #360\r\n\r\nCloses !217"
+    end
+
+    expect(box).to eq([
+      "┌───────────────────────────┐\r\n",
+      "│Closes #360                │\r\n",
+      "│                           │\r\n",
+      "│Closes !217                │\r\n",
+      "│                           │\r\n",
+      "│                           │\r\n",
+      "└───────────────────────────┘\r\n"
     ].join)
   end
 end

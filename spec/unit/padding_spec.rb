@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe TTY::Box, ':padding option' do
   it "padds internal content without position arguments" do
     box = TTY::Box.frame(width: 30, height: 6, padding: 1) do
@@ -41,6 +43,26 @@ RSpec.describe TTY::Box, ':padding option' do
       "\e[4;1H│   terminal emulator        \e[4;30H│",
       "\e[5;1H│                            \e[5;30H│",
       "\e[6;1H└────────────────────────────┘"
+    ].join)
+  end
+
+  it "handles \r\n line breaks when padding" do
+    box = TTY::Box.frame(
+          width: 29,
+          height: 7,
+          padding: 1
+        ) do
+      "Closes #360\r\n\r\nCloses !217"
+    end
+
+    expect(box).to eq([
+      "┌───────────────────────────┐\r\n",
+      "│                           │\r\n",
+      "│ Closes #360               │\r\n",
+      "│                           │\r\n",
+      "│ Closes !217               │\r\n",
+      "│                           │\r\n",
+      "└───────────────────────────┘\r\n"
     ].join)
   end
 end
