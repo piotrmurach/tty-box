@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe TTY::Box, ':title option' do
   it "allows to specify top border titles"  do
     output = TTY::Box.frame(

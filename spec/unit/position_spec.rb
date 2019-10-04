@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe TTY::Box, ':top, :left options' do
   it "skips positioning when no top & left values provided" do
     output = TTY::Box.frame(width: 35, height: 4)

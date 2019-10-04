@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe TTY::Box, ':border option' do
   it "creates frame with double lines and no position" do
     box = TTY::Box.frame(

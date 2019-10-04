@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe TTY::Box, ':align option' do
   it "aligns content without positioning" do
     box = TTY::Box.frame(width: 26, height: 4, align: :center) do
