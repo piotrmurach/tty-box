@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe TTY::Box, ":style option" do
   it "applies styling to content and border" do
     box = TTY::Box.frame(
@@ -22,7 +24,7 @@ RSpec.describe TTY::Box, ":style option" do
     end
 
     expect(box).to eq([
-      "\e[1;1H\e[44m\e[93m╔\e[0m\e[0m\e[44m file1 \e[0m\e[44m\e[93m══════════\e[0m\e[0m\e[44m\e[93m═══════════\e[0m\e[0m\e[44m\e[93m╗\e[0m\e[0m",
+      "\e[1;1H\e[44m\e[93m╔\e[0m\e[0m\e[44m\e[93m file1 \e[0m\e[0m\e[44m\e[93m══════════\e[0m\e[0m\e[44m\e[93m═══════════\e[0m\e[0m\e[44m\e[93m╗\e[0m\e[0m",
       "\e[2;1H\e[44m\e[93m║\e[0m\e[0m\e[44m\e[93mMidnight Commander          \e[0m\e[0m\e[2;30H\e[44m\e[93m║\e[0m\e[0m",
       "\e[3;1H\e[44m\e[93m║\e[0m\e[0m\e[44m\e[93mis the best                 \e[0m\e[0m\e[3;30H\e[44m\e[93m║\e[0m\e[0m",
       "\e[4;1H\e[44m\e[93m╚\e[0m\e[0m\e[44m\e[93m══════════════\e[0m\e[0m\e[44m\e[93m══════════════\e[0m\e[0m\e[44m\e[93m╝\e[0m\e[0m"

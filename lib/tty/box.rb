@@ -185,11 +185,11 @@ module TTY
 
       [
         bg.(fg.(top_left)),
-        bg.(title[:top_left].to_s),
+        bg.(fg.(title[:top_left].to_s)),
         bg.(fg.(line_char(border.type) * top_space_before)),
-        bg.(title[:top_center].to_s),
+        bg.(fg.(title[:top_center].to_s)),
         bg.(fg.(line_char(border.type) * top_space_after)),
-        bg.(title[:top_right].to_s),
+        bg.(fg.(title[:top_right].to_s)),
         bg.(fg.(top_right))
       ].join('')
     end
@@ -215,11 +215,11 @@ module TTY
 
       [
         bg.(fg.(bottom_left)),
-        bg.(title[:bottom_left].to_s),
+        bg.(fg.(title[:bottom_left].to_s)),
         bg.(fg.(line_char(border.type) * bottom_space_before)),
-        bg.(title[:bottom_center].to_s),
+        bg.(fg.(title[:bottom_center].to_s)),
         bg.(fg.(line_char(border.type) * bottom_space_after)),
-        bg.(title[:bottom_right].to_s),
+        bg.(fg.(title[:bottom_right].to_s)),
         bg.(fg.(bottom_right))
       ].join('')
     end
