@@ -12,13 +12,13 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://piotrmurach.github.io/tty"
   spec.license       = "MIT"
 
-  spec.files         = Dir['{lib,spec,examples}/**/*.rb']
-  spec.files        += Dir['{bin,tasks}/*', 'tty-box.gemspec']
-  spec.files        += Dir['README.md', 'CHANGELOG.md', 'LICENSE.txt', 'Rakefile']
+  spec.files         = Dir["{lib,spec,examples}/**/*.rb"]
+  spec.files        += Dir["{bin,tasks}/*", "tty-box.gemspec"]
+  spec.files        += Dir["README.md", "CHANGELOG.md", "LICENSE.txt", "Rakefile"]
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = '>= 2.0.0'
+  spec.required_ruby_version = ">= 2.0.0"
 
   spec.add_dependency "pastel", "~> 0.7.2"
   spec.add_dependency "tty-cursor", "~> 0.7"
