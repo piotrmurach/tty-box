@@ -73,6 +73,98 @@ module TTY
       @color ||= Pastel.new
     end
 
+    # A frame for info type message
+    #
+    # @param [String] message
+    #   the message to display
+    #
+    # @api public
+    def info(message, **opts)
+      new_opts = {
+        title: { top_left: " ℹ INFO " },
+        border: { type: :thick },
+        padding: 1,
+        style: {
+          fg: :black,
+          bg: :bright_blue,
+          border: {
+            fg: :black,
+            bg: :bright_blue
+          }
+        }
+      }.merge(opts)
+      frame(**new_opts) { message }
+    end
+
+    # A frame for warning type message
+    #
+    # @param [String] message
+    #   the message to display
+    #
+    # @api public
+    def warn(message, **opts)
+      new_opts = {
+        title: { top_left: " ⚠ WARNING " },
+        border: { type: :thick },
+        padding: 1,
+        style: {
+          fg: :black,
+          bg: :bright_yellow,
+          border: {
+            fg: :black,
+            bg: :bright_yellow
+          }
+        }
+      }.merge(opts)
+      frame(**new_opts) { message }
+    end
+
+    # A frame for for success type message
+    #
+    # @param [String] message
+    #   the message to display
+    #
+    # @api public
+    def success(message, **opts)
+      new_opts = {
+        title: { top_left: " ✔ OK " },
+        border: { type: :thick },
+        padding: 1,
+        style: {
+          fg: :black,
+          bg: :bright_green,
+          border: {
+            fg: :black,
+            bg: :bright_green,
+          }
+        }
+      }.merge(opts)
+      frame(**new_opts) { message }
+    end
+
+    # A frame for error type message
+    #
+    # @param [String] message
+    #   the message to display
+    #
+    # @api public
+    def error(message, **opts)
+      new_opts = {
+        title: { top_left: " ⨯ ERROR " },
+        border: { type: :thick },
+        padding: 1,
+        style: {
+          fg: :bright_white,
+          bg: :red,
+          border: {
+            fg: :bright_white,
+            bg: :red
+          }
+        }
+      }.merge(opts)
+      frame(**new_opts) { message }
+    end
+
     # Create a frame
     #
     # @param [Integer] top
