@@ -58,43 +58,83 @@ Or install it yourself as:
 Using the `frame` method, you can draw a box in a terminal emulator:
 
 ```ruby
-box = TTY::Box.frame(
-  width: 30,
-  height: 10,
-  align: :center,
-  padding: 3
-) do
-  "Drawing a box in terminal emulator"
-end
-
+box = TTY::Box.frame "Drawing a box in", "terminal emulator", padding: 3, align: :center
 ```
+
+And then print:
 
 ```ruby
 print box
 # =>
-# ┌────────────────────────────┐
-# │                            │
-# │                            │
-# │                            │
-# │     Drawing a box in       │
-# │     terminal emulator      │
-# │                            │
-# │                            │
-# │                            │
-# └────────────────────────────┘
+# ┌───────────────────────┐
+# │                       │
+# │                       │
+# │                       │
+# │   Drawing a box in    │
+# │   terminal emulator   │
+# │                       │
+# │                       │
+# │                       │
+# └───────────────────────┘
 ```
 
 ## 2. Interface
 
 ### 2.1 frame
 
+You can draw a box in your terminal window by using the `frame` method and passing a content to display. By default the box will be drawn around the content.
+
+```ruby
+print TTY::Box.frame "Hello world!"
+# =>
+# ┌────────────┐
+# │Hello world!│
+# └────────────┘
+```
+
+You can also provide multi line content as separate arguments.
+
+```ruby
+print TTY::Box.frame "Hello", "world!"
+# =>
+# ┌──────┐
+# │Hello │
+# │world!│
+# └──────┘
+```
+
+Alternatively, provide a multi line content using newline chars in a single argument:
+
+```ruby
+print TTY::Box.frame "Hello\nworld!"
+# =>
+# ┌──────┐
+# │Hello │
+# │world!│
+# └──────┘
+```
+
+Finally, you can use a block to specify content:
+
+```ruby
+print TTY::Box.frame do
+  "Hello world!"
+end
+# =>
+# ┌────────────┐
+# │Hello world!│
+# └────────────┘
+```
+
 You can draw a box in the top left corner of your terminal window by using the `frame` method and providing at the very minimum the height and the width:
+
+You can also enforce a given box size without any content:
 
 ```ruby
 box = TTY::Box.frame(width: 30, height: 10)
 ```
 
-which when printed will prodcue the following output in your terminal:
+When printed will produce the following output in your terminal:
 
 ```ruby
 print box
@@ -121,7 +161,7 @@ box = TTY::Box.frame(width: 30, height: 10) do
 end
 ```
 
-which when printed will produce the following output in your terminal:
+When printed will produce the following output in your terminal:
 
 ```ruby
 print box
