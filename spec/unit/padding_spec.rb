@@ -1,6 +1,20 @@
 # frozen_string_literal: true
 
-RSpec.describe TTY::Box, ':padding option' do
+RSpec.describe TTY::Box, ":padding option" do
+  it "padds internal content without width and height" do
+    box = TTY::Box.frame(padding: 1) do
+      "Drawing a box in terminal emulator"
+    end
+
+    expect(box).to eq([
+      "┌────────────────────────────────────┐\n",
+      "│                                    │\n",
+      "│ Drawing a box in terminal emulator │\n",
+      "│                                    │\n",
+      "└────────────────────────────────────┘\n"
+    ].join)
+  end
+
   it "padds internal content without position arguments" do
     box = TTY::Box.frame(width: 30, height: 6, padding: 1) do
       "Drawing a box in terminal emulator"

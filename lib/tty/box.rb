@@ -75,11 +75,29 @@ module TTY
 
     # Create a frame
     #
+    # @param [Integer] top
+    #   the offset from the terminal top
+    # @param [Integer] left
+    #   the offset from the terminal left
+    # @param [Integer] width
+    #   the width of the box
+    # @param [Integer] height
+    #   the height of the box
+    # @param [Symbol] align
+    #   the content alignment
+    # @param [Integer,Array[Integer]] padding
+    #   the padding around content
+    # @param [Hash] title
+    #   the title for top or bottom border
+    # @param [Hash, Symbol] border
+    #   the border type
+    # @param [Hash] style
+    #   the styling for the front and background
+    #
     # @api public
-    def frame(top: nil, left: nil, width: 35, height: 3, align: :left, padding: 0,
-              title: {}, border: :light, style: {})
+    def frame(*content, top: nil, left: nil, width: nil, height: nil, align: :left,
+              padding: 0, title: {}, border: :light, style: {})
       output = []
-      content = []
       sep = NEWLINE
       position = top && left
 
@@ -91,10 +109,22 @@ module TTY
 
       if block_given?
         str = yield
-        sep = str[LINE_BREAK] || NEWLINE # infer line break
-        content = format(str, width, padding, align)
+      else
+        str = case content.size
+        when 0 then ""
+        when 1 then content[0]
+        else content.join(NEWLINE)
+        end
       end
 
+      sep = str[LINE_BREAK] || NEWLINE # infer line break
+      lines = str.split(sep)
+      # infer dimensions
+      dimensions = infer_dimensions(lines, padding)
+      width ||= left_size + dimensions[0] + right_size
+      height ||= top_size + dimensions[1] + bottom_size
+      content = format(str, width, padding, align) # adjust content
+      # infer styling
       fg, bg = *extract_style(style)
       border_fg, border_bg = *extract_style(style[:border] || {})
 
@@ -117,7 +147,7 @@ module TTY
           content_size -= size
         end
         if style[:fg] || style[:bg] || !position # something to color
-          output << bg.(fg.(' ' * content_size))
+          output << bg.(fg.(" " * content_size))
         end
 
         if border.right?
@@ -138,12 +168,31 @@ module TTY
       output.join
     end
 
+    # Infer box dimensions based on content lines and padding
+    #
+    # @param [Array[String]] lines
+    # @param [Array[Integer]|Integer] padding
+    #
+    # @return [Array[Integer]]
+    #
+    # @api private
+    def infer_dimensions(lines, padding)
+      pad = Strings::Padder.parse(padding)
+      content_height = lines.size
+      content_width = lines.empty? ? 1 : lines.max_by(&:length).length
+      width = pad.left + content_width + pad.right
+      height = pad.top + content_height + pad.bottom
+      [width, height]
+    end
+
     # Format content
     #
     # @return [Array[String]]
     #
     # @api private
     def format(content, width, padding, align)
+      return "" if content.to_s.empty?
+
       pad = Strings::Padder.parse(padding)
       total_width = width - 2 - (pad.left + pad.right)
       sep = content[LINE_BREAK] || NEWLINE # infer line break

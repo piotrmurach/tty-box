@@ -1,6 +1,58 @@
 # frozen_string_literal: true
 
 RSpec.describe TTY::Box, "#frame" do
+  it "creates frame without content & width & height values" do
+    output = TTY::Box.frame
+
+    expect(output).to eq([
+      "┌─┐\n",
+      "└─┘\n"
+    ].join)
+  end
+
+  it "creates frame around content without width & height values" do
+    output = TTY::Box.frame "Hello world!"
+
+    expect(output).to eq([
+      "┌────────────┐\n",
+      "│Hello world!│\n",
+      "└────────────┘\n"
+    ].join)
+  end
+
+  it "creates frame around content without width & height values" do
+    output = TTY::Box.frame "Hello\nworld!"
+
+    expect(output).to eq([
+      "┌──────┐\n",
+      "│Hello │\n",
+      "│world!│\n",
+      "└──────┘\n"
+    ].join)
+  end
+
+  it "creates frame based on multiline content without width & height values" do
+    output = TTY::Box.frame "Hello", "world!"
+
+    expect(output).to eq([
+      "┌──────┐\n",
+      "│Hello │\n",
+      "│world!│\n",
+      "└──────┘\n"
+    ].join)
+  end
+
+  it "creates frame around block content without width & height values" do
+    output = TTY::Box.frame do
+      "Hello world!"
+    end
+
+    expect(output).to eq([
+      "┌────────────┐\n",
+      "│Hello world!│\n",
+      "└────────────┘\n"
+    ].join)
+  end
   it "creates frame with only  width & height values" do
     output = TTY::Box.frame(width: 35, height: 4)
 
