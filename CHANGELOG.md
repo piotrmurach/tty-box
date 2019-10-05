@@ -1,5 +1,15 @@
 # Change log
 
+## [v0.5.0] - 2019-10-xx
+
+### Added
+* Add ability to create frames without specifying width or height
+* Add #info, #warn, #success, #error ready frames for status messages inspired by conversation with Konstantin Gredeskoul(@kigster)
+
+### Changed
+* Change #frame to accept content as an argument in addition to a block
+* Change to match titles with border styling
+
 ## [v0.4.1] - 2019-08-28
 
 ### Added
@@ -42,6 +52,7 @@
 
 * Initial implementation and release
 
+[v0.5.0]: https://github.com/piotrmurach/tty-box/compare/v0.4.1...v0.5.0
 [v0.4.1]: https://github.com/piotrmurach/tty-box/compare/v0.4.0...v0.4.1
 [v0.4.0]: https://github.com/piotrmurach/tty-box/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/piotrmurach/tty-box/compare/v0.2.1...v0.3.0
