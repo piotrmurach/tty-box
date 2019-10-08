@@ -400,7 +400,7 @@ print box
 
 ### 2.8 messages
 
-![Box messages](https://github.com/piotrmurach/tty-box/blob/master/assets/tty-box-drawing.png)
+![Box messages](https://github.com/piotrmurach/tty-box/blob/master/assets/tty-box-messages.png)
 
 #### 2.8.1 info
 
@@ -444,10 +444,10 @@ print box
 
 #### 2.8.3 success
 
-To draw an information type box around your content use `info`:
+To draw a success type box around your content use `success`:
 
 ```ruby
-box = TTY::Box.info("Deploying application")
+box = TTY::Box.success("Deploying application")
 ```
 
 And then print:
@@ -464,7 +464,7 @@ print box
 
 #### 2.8.4 error
 
-To draw an information type box around your content use `info`:
+To draw an error type box around your content use `error`:
 
 ```ruby
 box = TTY::Box.error("Deploying application")
