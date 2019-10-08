@@ -1,6 +1,6 @@
 # Change log
 
-## [v0.5.0] - 2019-10-07
+## [v0.5.0] - 2019-10-08
 
 ### Added
 * Add ability to create frames without specifying width or height
