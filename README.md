@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://piotrmurach.github.io/tty" target="_blank"><img width="130" src="https://cdn.rawgit.com/piotrmurach/tty/master/images/tty.png" alt="tty logo" /></a>
+  <a href="https://piotrmurach.github.io/tty" target="_blank"><img width="130" src="https://github.com/piotrmurach/tty/blob/master/images/tty.png" alt="tty logo" /></a>
 </div>
 
 # TTY::Box [![Gitter](https://badges.gitter.im/Join%20Chat.svg)][gitter]
@@ -23,7 +23,7 @@
 
 **TTY::Box** provides box drawing component for [TTY](https://github.com/piotrmurach/tty) toolkit.
 
-![Box drawing](https://cdn.rawgit.com/piotrmurach/tty-box/master/assets/tty-box-drawing.png)
+![Box drawing](https://github.com/piotrmurach/tty-box/blob/master/assets/tty-box-drawing.png)
 
 ## Installation
 
@@ -52,6 +52,11 @@ Or install it yourself as:
   * [2.5 border](#25-border)
   * [2.6 styling](#26-styling)
   * [2.7 formatting](#27-formatting)
+  * [2.8 messages](#28-messages)
+    * [2.8.1 info](#281-info)
+    * [2.8.2 warn](#282-warn)
+    * [2.8.3 success](#283-success)
+    * [2.8.4 error](#284-error)
 
 ## 1. Usage
 
@@ -126,9 +131,7 @@ end
 # └────────────┘
 ```
 
-You can draw a box in the top left corner of your terminal window by using the `frame` method and providing at the very minimum the height and the width:
-
-You can also enforce a given box size without any content:
+You can also enforce a given box size without any content and use [tty-cursor](https://github.com/piotrmurach/tty-cursor) to position content whatever you like.
 
 ```ruby
 box = TTY::Box.frame(width: 30, height: 10)
@@ -150,8 +153,6 @@ print box
 # │                            │
 # └────────────────────────────┘
 ```
-
-Then you can use [tty-cursor](https://github.com/piotrmurach/tty-cursor) to directly manipulate content to be displayed inside the box.
 
 Alternatively, you can also pass a block to provide a content for the box:
 
@@ -395,6 +396,90 @@ print box
 # │                            │
 # └────────────────────────────┘
 #
+```
+
+### 2.8 messages
+
+![Box messages](https://github.com/piotrmurach/tty-box/blob/master/assets/tty-box-drawing.png)
+
+#### 2.8.1 info
+
+To draw an information type box around your content use `info`:
+
+```ruby
+box = TTY::Box.info("Deploying application")
+```
+
+And then print:
+
+```ruby
+print box
+# =>
+# ╔ ℹ INFO ═══════════════╗
+# ║                       ║
+# ║ Deploying application ║
+# ║                       ║
+# ╚═══════════════════════╝
+```
+
+#### 2.8.2 warn
+
+To draw a warning type box around your content use `warn`:
+
+```ruby
+box = TTY::Box.warn("Deploying application")
+```
+
+And then print:
+
+```ruby
+print box
+# =>
+# ╔ ⚠ WARNING ════════════╗
+# ║                       ║
+# ║ Deploying application ║
+# ║                       ║
+# ╚═══════════════════════╝
+```
+
+#### 2.8.3 success
+
+To draw an information type box around your content use `info`:
+
+```ruby
+box = TTY::Box.info("Deploying application")
+```
+
+And then print:
+
+```ruby
+print box
+# =>
+# ╔ ✔ OK ═════════════════╗
+# ║                       ║
+# ║ Deploying application ║
+# ║                       ║
+# ╚═══════════════════════╝
+```
+
+#### 2.8.4 error
+
+To draw an information type box around your content use `info`:
+
+```ruby
+box = TTY::Box.error("Deploying application")
+```
+
+And then print:
+
+```ruby
+print box
+# =>
+# ╔ ⨯ ERROR ══════════════╗
+# ║                       ║
+# ║ Deploying application ║
+# ║                       ║
+# ╚═══════════════════════╝
 ```
 
 ## Development
