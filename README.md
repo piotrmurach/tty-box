@@ -122,9 +122,7 @@ print TTY::Box.frame "Hello\nworld!"
 Finally, you can use a block to specify content:
 
 ```ruby
-print TTY::Box.frame do
-  "Hello world!"
-end
+print TTY::Box.frame { "Hello world!" }
 # =>
 # ┌────────────┐
 # │Hello world!│
