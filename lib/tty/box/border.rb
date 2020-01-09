@@ -23,7 +23,7 @@ module TTY
       def self.parse(border)
         case border
         when Hash
-          new(border)
+          new(**border)
         when *TTY::Box::BOX_CHARS.keys
           new(type: border)
         else
