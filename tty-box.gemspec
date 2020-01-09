@@ -11,13 +11,20 @@ Gem::Specification.new do |spec|
   spec.description   = %q{Draw various frames and boxes in your terminal interface.}
   spec.homepage      = "https://piotrmurach.github.io/tty"
   spec.license       = "MIT"
-
-  spec.files         = Dir["{lib,spec,examples}/**/*.rb"]
-  spec.files        += Dir["{bin,tasks}/*", "tty-box.gemspec"]
+  if spec.respond_to?(:metadata=)
+    spec.metadata = {
+      "allowed_push_host" => "https://rubygems.org",
+      "bug_tracker_uri"   => "https://github.com/piotrmurach/tty-box/issues",
+      "changelog_uri"     => "https://github.com/piotrmurach/tty-box/blob/master/CHANGELOG.md",
+      "documentation_uri" => "https://www.rubydoc.info/gems/tty-box",
+      "homepage_uri"      => spec.homepage,
+      "source_code_uri"   => "https://github.com/piotrmurach/tty-box"
+    }
+  end
+  spec.files         = Dir["lib/**/*.rb", "tty-box.gemspec"]
   spec.files        += Dir["README.md", "CHANGELOG.md", "LICENSE.txt", "Rakefile"]
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.executables   = []
   spec.require_paths = ["lib"]
-
   spec.required_ruby_version = ">= 2.0.0"
 
   spec.add_dependency "pastel", "~> 0.7.2"
