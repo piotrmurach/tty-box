@@ -214,6 +214,8 @@ module TTY
       # infer dimensions
       dimensions = infer_dimensions(lines, padding)
       width ||= left_size + dimensions[0] + right_size
+      width = [width, top_space_taken(title, border), bottom_space_taken(title, border)].max
+
       height ||= top_size + dimensions[1] + bottom_size
       content = format(str, width, padding, align) # adjust content
       # infer styling
@@ -306,33 +308,98 @@ module TTY
       [fg, bg]
     end
 
+    # Top space taken by titles and corners
+    #
+    # @return [Integer]
+    #
+    # @api private
+    def top_space_taken(title, border)
+      top_titles_size(title) + top_left_corner(border).size + top_right_corner(border).size
+    end
+
+    # Top left corner
+    #
+    # @return [String]
+    #
+    # @api private
+    def top_left_corner(border)
+      border.top_left? && border.left? ? send(:"#{border.top_left}_char", border.type) : ""
+    end
+
+    # Top right corner
+    #
+    # @return [String]
+    #
+    # @api private
+    def top_right_corner(border)
+      border.top_right? && border.right? ? send(:"#{border.top_right}_char", border.type) : ""
+    end
+
+    # Top titles size
+    #
+    # @return [Integer]
+    #
+    # @api private
+    def top_titles_size(title)
+      title[:top_left].to_s.size + title[:top_center].to_s.size + title[:top_right].to_s.size
+    end
+
     # Top border
     #
     # @return [String]
     #
     # @api private
     def top_border(title, width, border, style)
-      top_titles_size = title[:top_left].to_s.size +
-                        title[:top_center].to_s.size +
-                        title[:top_right].to_s.size
       fg, bg = *extract_style(style[:border] || {})
 
-      top_left = border.top_left? && border.left? ? send(:"#{border.top_left}_char", border.type) : ""
-      top_right = border.top_right? && border.right? ? send(:"#{border.top_right}_char", border.type) : ""
-
-      top_space_left   = width - top_titles_size - top_left.size - top_right.size
+      top_space_left = width - top_space_taken(title, border)
       top_space_before = top_space_left / 2
       top_space_after  = top_space_left / 2 + top_space_left % 2
 
       [
-        bg.(fg.(top_left)),
+        bg.(fg.(top_left_corner(border))),
         bg.(fg.(title[:top_left].to_s)),
         bg.(fg.(line_char(border.type) * top_space_before)),
         bg.(fg.(title[:top_center].to_s)),
         bg.(fg.(line_char(border.type) * top_space_after)),
         bg.(fg.(title[:top_right].to_s)),
-        bg.(fg.(top_right))
+        bg.(fg.(top_right_corner(border)))
       ].join('')
+    end
+    # Bottom space taken by titles and corners
+    #
+    # @return [Integer]
+    #
+    # @api private
+    def bottom_space_taken(title, border)
+      bottom_titles_size(title) + bottom_left_corner(border).size + bottom_right_corner(border).size
+    end
+
+    # Bottom left corner
+    #
+    # @return [String]
+    #
+    # @api private
+    def bottom_left_corner(border)
+      border.bottom_left? && border.left? ? send(:"#{border.bottom_left}_char", border.type) : ""
+    end
+
+    # Bottom right corner
+    #
+    # @return [String]
+    #
+    # @api private
+    def bottom_right_corner(border)
+      border.bottom_right? && border.right? ? send(:"#{border.bottom_right}_char", border.type) : ""
+    end
+
+    # Bottom titles size
+    #
+    # @return [Integer]
+    #
+    # @api private
+    def bottom_titles_size(title)
+      title[:bottom_left].to_s.size + title[:bottom_center].to_s.size + title[:bottom_right].to_s.size
     end
 
     # Bottom border
@@ -341,27 +408,20 @@ module TTY
     #
     # @api private
     def bottom_border(title, width, border, style)
-      bottom_titles_size = title[:bottom_left].to_s.size +
-                           title[:bottom_center].to_s.size +
-                           title[:bottom_right].to_s.size
       fg, bg = *extract_style(style[:border] || {})
 
-      bottom_left  = border.bottom_left? && border.left? ? send(:"#{border.bottom_left}_char", border.type) : ""
-      bottom_right = border.bottom_right? && border.right? ? send(:"#{border.bottom_right}_char", border.type) : ""
-
-      bottom_space_left = width - bottom_titles_size -
-                          bottom_left.size - bottom_right.size
+      bottom_space_left = width - bottom_space_taken(title, border)
       bottom_space_before = bottom_space_left / 2
       bottom_space_after = bottom_space_left / 2 + bottom_space_left % 2
 
       [
-        bg.(fg.(bottom_left)),
+        bg.(fg.(bottom_left_corner(border))),
         bg.(fg.(title[:bottom_left].to_s)),
         bg.(fg.(line_char(border.type) * bottom_space_before)),
         bg.(fg.(title[:bottom_center].to_s)),
         bg.(fg.(line_char(border.type) * bottom_space_after)),
         bg.(fg.(title[:bottom_right].to_s)),
-        bg.(fg.(bottom_right))
+        bg.(fg.(bottom_right_corner(border)))
       ].join('')
     end
   end # TTY
