@@ -34,4 +34,30 @@ RSpec.describe TTY::Box, ':title option' do
       "\e[4;1H└left─────────center─────────right┘"
     ].join)
   end
+
+  it "allows the top title to be longer than the message" do
+    output = TTY::Box.frame("BOO!",
+                            title: {
+                              top_left: " ⚠ WARNING ",
+                            })
+
+    expect(output).to eq([
+      "┌ ⚠ WARNING ┐\n",
+      "│BOO!       │\n",
+      "└───────────┘\n"
+    ].join)
+  end
+
+  it "allows the bottom title to be longer than the message" do
+    output = TTY::Box.frame("BOO!",
+                            title: {
+                              bottom_left: " ⚠ WARNING "
+                            })
+
+    expect(output).to eq([
+      "┌───────────┐\n",
+      "│BOO!       │\n",
+      "└ ⚠ WARNING ┘\n"
+    ].join)
+  end
 end
