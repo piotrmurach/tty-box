@@ -131,4 +131,19 @@ RSpec.describe TTY::Box, "#frame" do
       "└───────────────────────────┘\r\n"
     ].join)
   end
+
+  it "preserves newline character breaks" do
+    box = TTY::Box.frame("foo\n\n\nbar\n\nbaz")
+
+    expect(box).to eq([
+      "┌───┐\n",
+      "│foo│\n",
+      "│   │\n",
+      "│   │\n",
+      "│bar│\n",
+      "│   │\n",
+      "│baz│\n",
+      "└───┘\n"
+    ].join)
+  end
 end
