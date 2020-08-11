@@ -19,7 +19,7 @@
 [coverage]: https://coveralls.io/github/piotrmurach/tty-box
 [inchpages]: http://inch-ci.org/github/piotrmurach/tty-box
 
-> Draw various frames and boxes in your terminal interface.
+> Draw various frames and boxes in the terminal window.
 
 **TTY::Box** provides box drawing component for [TTY](https://github.com/piotrmurach/tty) toolkit.
 
@@ -30,7 +30,7 @@
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'tty-box'
+gem "tty-box"
 ```
 
 And then execute:
@@ -211,7 +211,7 @@ You can specify titles using the `:title` keyword and a hash value that contains
 
 
 ```ruby
-box = TTY::Box.frame(width: 30, height: 10, title: {top_left: 'TITLE', bottom_right: 'v1.0'})
+box = TTY::Box.frame(width: 30, height: 10, title: {top_left: "TITLE", bottom_right: "v1.0"})
 ```
 
 which when printed in console will render the following:
