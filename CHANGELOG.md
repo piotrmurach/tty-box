@@ -1,5 +1,15 @@
 # Change log
 
+## [v0.6.0] - 2020-08-11
+
+### Changed
+* Change to preserve newline characters when wrapping content
+* Change gemspec to include metadata and remove test files
+* Change to update pastel & strings dependencies
+
+### Fixed
+* Fix Ruby 2.7 warnings
+
 ## [v0.5.0] - 2019-10-08
 
 ### Added
@@ -52,6 +62,7 @@
 
 * Initial implementation and release
 
+[v0.6.0]: https://github.com/piotrmurach/tty-box/compare/v0.5.0...v0.6.0
 [v0.5.0]: https://github.com/piotrmurach/tty-box/compare/v0.4.1...v0.5.0
 [v0.4.1]: https://github.com/piotrmurach/tty-box/compare/v0.4.0...v0.4.1
 [v0.4.0]: https://github.com/piotrmurach/tty-box/compare/v0.3.0...v0.4.0
