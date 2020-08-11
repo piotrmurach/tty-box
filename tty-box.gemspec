@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "lib/tty/box/version"
 
 Gem::Specification.new do |spec|
@@ -5,9 +7,9 @@ Gem::Specification.new do |spec|
   spec.version       = TTY::Box::VERSION
   spec.authors       = ["Piotr Murach"]
   spec.email         = ["piotr@piotrmurach.com"]
-  spec.summary       = %q{Draw various frames and boxes in your terminal interface.}
-  spec.description   = %q{Draw various frames and boxes in your terminal interface.}
-  spec.homepage      = "https://piotrmurach.github.io/tty"
+  spec.summary       = %q{Draw various frames and boxes in the terminal window.}
+  spec.description   = %q{Draw various frames and boxes in the terminal window.}
+  spec.homepage      = "https://ttytoolkit.org"
   spec.license       = "MIT"
   if spec.respond_to?(:metadata=)
     spec.metadata = {
