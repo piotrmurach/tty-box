@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
-require 'strings'
-require 'pastel'
-require 'tty-cursor'
+require "strings"
+require "pastel"
+require "tty-cursor"
 
-require_relative 'box/border'
-require_relative 'box/version'
+require_relative "box/border"
+require_relative "box/version"
 
+# rubocop: disable Metrics/ParameterLists
 module TTY
   module Box
     module_function
@@ -187,10 +188,18 @@ module TTY
     #   the styling for the front and background
     #
     # @api public
-    def frame(*content, top: nil, left: nil, width: nil, height: nil, align: :left,
-              padding: 0, title: {}, border: :light, style: {})
+    def frame(*content,
+              align: :left,
+              border: :light,
+              height: nil,
+              left: nil,
+              padding: 0,
+              style: {},
+              title: {},
+              top: nil,
+              width: nil
+      )
       output = []
-      sep = NEWLINE
       position = top && left
 
       border = Border.parse(border)
@@ -199,15 +208,7 @@ module TTY
       left_size   = border.left? ? 1 : 0
       right_size  = border.right ? 1 : 0
 
-      if block_given?
-        str = yield
-      else
-        str = case content.size
-        when 0 then ""
-        when 1 then content[0]
-        else content.join(NEWLINE)
-        end
-      end
+      str = block_given? ? yield : content_to_str(content)
 
       sep = str[LINE_BREAK] || NEWLINE # infer line break
       lines = str.split(sep)
@@ -240,6 +241,8 @@ module TTY
           size = Strings::ANSI.sanitize(content[i]).scan(/[[:print:]]/).join.size
           content_size -= size
         end
+        # handle occasional negative numbers
+        content_size = [content_size, 0].max
         if style[:fg] || style[:bg] || !position # something to color
           output << bg.(fg.(" " * content_size))
         end
@@ -415,14 +418,26 @@ module TTY
       bottom_space_after = bottom_space_left / 2 + bottom_space_left % 2
 
       [
-        bg.(fg.(bottom_left_corner(border))),
-        bg.(fg.(title[:bottom_left].to_s)),
-        bg.(fg.(line_char(border.type) * bottom_space_before)),
-        bg.(fg.(title[:bottom_center].to_s)),
-        bg.(fg.(line_char(border.type) * bottom_space_after)),
-        bg.(fg.(title[:bottom_right].to_s)),
-        bg.(fg.(bottom_right_corner(border)))
-      ].join('')
+        bg.call(fg.(bottom_left_corner(border))),
+        bg.call(fg.(title[:bottom_left].to_s)),
+        bg.call(fg.(line_char(border.type) * bottom_space_before)),
+        bg.call(fg.(title[:bottom_center].to_s)),
+        bg.call(fg.(line_char(border.type) * bottom_space_after)),
+        bg.call(fg.(title[:bottom_right].to_s)),
+        bg.call(fg.(bottom_right_corner(border)))
+      ].join("")
     end
-  end # TTY
-end # Box
+
+    def self.content_to_str(content)
+      case content.size
+      when 0
+        ""
+      when 1
+        content[0]
+      else
+        content.join(NEWLINE)
+      end
+    end
+  end # Box
+end # TTY
+# rubocop: enable Metrics/ParameterLists
