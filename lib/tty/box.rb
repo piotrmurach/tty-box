@@ -273,7 +273,7 @@ module TTY
     def infer_dimensions(lines, padding)
       pad = Strings::Padder.parse(padding)
       content_height = lines.size
-      content_width = lines.empty? ? 1 : lines.max_by(&:length).length
+      content_width = lines.empty? ? 1 : lines.map { |l| color.strip(l) }.max_by(&:length).length
       width = pad.left + content_width + pad.right
       height = pad.top + content_height + pad.bottom
       [width, height]
