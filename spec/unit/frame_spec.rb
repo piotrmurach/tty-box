@@ -127,7 +127,9 @@ RSpec.describe TTY::Box, "#frame" do
   
   it "correctly spaces colored titles" do
   	p = Pastel.new
-  	box = TTY::Box.frame(title: {top_left: p.green.on_red("TITLE"), bottom_right: p.green.on_red("(v1.0)")}) do
+  	box = TTY::Box.frame(title: {
+  		top_left: p.green.on_red("TITLE"),
+  		bottom_right: p.green.on_red("(v1.0)")}) do
       "Hello world!"
     end
     

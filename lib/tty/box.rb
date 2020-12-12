@@ -341,7 +341,9 @@ module TTY
     #
     # @api private
     def top_titles_size(title)
-      color().strip(title[:top_left].to_s).size + color().strip(title[:top_center].to_s).size + color().strip(title[:top_right].to_s).size
+      color.strip(title[:top_left].to_s).size   +
+      color.strip(title[:top_center].to_s).size +
+      color.strip(title[:top_right].to_s).size
     end
 
     # Top border
@@ -399,7 +401,9 @@ module TTY
     #
     # @api private
     def bottom_titles_size(title)
-      color().strip(title[:bottom_left].to_s).size + color().strip(title[:bottom_center].to_s).size + color().strip(title[:bottom_right].to_s).size
+      color.strip(title[:bottom_left].to_s).size   +
+      color.strip(title[:bottom_center].to_s).size +
+      color.strip(title[:bottom_right].to_s).size
     end
 
     # Bottom border
