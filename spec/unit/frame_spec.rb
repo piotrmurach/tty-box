@@ -103,7 +103,7 @@ RSpec.describe TTY::Box, "#frame" do
 
   it "correctly displays colored content" do
     box = TTY::Box.frame(width: 35, height: 3) do
-      Pastel.new.green.on_red("Hello world!")
+      Pastel.new(enabled: true).green.on_red("Hello world!")
     end
 
     expect(box).to eq([
@@ -115,7 +115,7 @@ RSpec.describe TTY::Box, "#frame" do
 
   it "correctly envelopes colored text" do
     box = TTY::Box.frame do
-      Pastel.new.green.on_red("Hello world!")
+      Pastel.new(enabled: true).green.on_red("Hello world!")
     end
 
     expect(box).to eq([
@@ -126,7 +126,7 @@ RSpec.describe TTY::Box, "#frame" do
   end
 
   it "correctly spaces colored titles" do
-    p = Pastel.new
+    p = Pastel.new(enabled: true)
     box = TTY::Box.frame(title: {
                            top_left: p.green.on_red("TITLE"),
                            bottom_right: p.green.on_red("(v1.0)")

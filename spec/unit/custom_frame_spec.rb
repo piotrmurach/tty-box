@@ -2,7 +2,7 @@
 
 RSpec.describe TTY::Box, "custom frames" do
   it "draws info type message" do
-    box = TTY::Box.info("Hello world!")
+    box = TTY::Box.info("Hello world!", enable_color: true)
 
     expect(box).to eq([
       "\e[104m\e[30m╔\e[0m\e[0m\e[104m\e[30m ℹ INFO \e[0m\e[0m\e[104m\e[30m═══\e[0m\e[0m\e[104m\e[30m═══\e[0m\e[0m\e[104m\e[30m╗\e[0m\e[0m\n",
@@ -14,7 +14,7 @@ RSpec.describe TTY::Box, "custom frames" do
   end
 
   it "draws warning type message" do
-    box = TTY::Box.warn("Hello world!")
+    box = TTY::Box.warn("Hello world!", enable_color: true)
 
     expect(box).to eq([
       "\e[103m\e[30m╔\e[0m\e[0m\e[103m\e[30m ⚠ WARNING \e[0m\e[0m\e[103m\e[30m═\e[0m\e[0m\e[103m\e[30m══\e[0m\e[0m\e[103m\e[30m╗\e[0m\e[0m\n",
@@ -26,7 +26,7 @@ RSpec.describe TTY::Box, "custom frames" do
   end
 
   it "draws success type message" do
-    box = TTY::Box.success("Hello world!")
+    box = TTY::Box.success("Hello world!", enable_color: true)
 
     expect(box).to eq([
       "\e[102m\e[30m╔\e[0m\e[0m\e[102m\e[30m ✔ OK \e[0m\e[0m\e[102m\e[30m════\e[0m\e[0m\e[102m\e[30m════\e[0m\e[0m\e[102m\e[30m╗\e[0m\e[0m\n",
@@ -38,7 +38,7 @@ RSpec.describe TTY::Box, "custom frames" do
   end
 
   it "draws error type message" do
-    box = TTY::Box.error("Hello world!")
+    box = TTY::Box.error("Hello world!", enable_color: true)
 
     expect(box).to eq([
       "\e[41m\e[97m╔\e[0m\e[0m\e[41m\e[97m ⨯ ERROR \e[0m\e[0m\e[41m\e[97m══\e[0m\e[0m\e[41m\e[97m═══\e[0m\e[0m\e[41m\e[97m╗\e[0m\e[0m\n",

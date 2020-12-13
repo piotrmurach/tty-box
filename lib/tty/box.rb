@@ -69,8 +69,8 @@ module TTY
       TTY::Cursor
     end
 
-    def color
-      @color ||= Pastel.new
+    def color(enabled: nil)
+      @color ||= Pastel.new(enabled: enabled)
     end
 
     # A frame for info type message
@@ -188,7 +188,9 @@ module TTY
     #
     # @api public
     def frame(*content, top: nil, left: nil, width: nil, height: nil, align: :left,
-              padding: 0, title: {}, border: :light, style: {})
+              padding: 0, title: {}, border: :light, style: {}, enable_color: nil)
+      @color = nil
+      color(enabled: enable_color)
       output = []
       sep = NEWLINE
       position = top && left

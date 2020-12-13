@@ -3,6 +3,7 @@
 RSpec.describe TTY::Box, ":style option" do
   it "applies styling to content and border" do
     box = TTY::Box.frame(
+      enable_color: true,
       top: 0,
       left: 0,
       width: 30,
@@ -33,6 +34,7 @@ RSpec.describe TTY::Box, ":style option" do
 
   it "creates box without corners and only color fill" do
     box = TTY::Box.frame(
+      enable_color: true,
       width: 10, height: 4,
       border: {
         top_left: false,
@@ -56,6 +58,7 @@ RSpec.describe TTY::Box, ":style option" do
 
   it "creates box without left & right borders and only color fill" do
     box = TTY::Box.frame(
+      enable_color: true,
       width: 10, height: 4,
       border: {
         left: false,
@@ -77,6 +80,7 @@ RSpec.describe TTY::Box, ":style option" do
 
   it "creates box without top & bottom borders and only color fill" do
     box = TTY::Box.frame(
+      enable_color: true,
       width: 10, height: 4,
       border: {
         top: false,
@@ -98,6 +102,7 @@ RSpec.describe TTY::Box, ":style option" do
 
   it "creates box without top & left borders and only color fill" do
     box = TTY::Box.frame(
+      enable_color: true,
       width: 10, height: 4,
       border: {
         top: false,
