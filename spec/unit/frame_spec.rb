@@ -10,6 +10,16 @@ RSpec.describe TTY::Box, "#frame" do
     ].join)
   end
 
+  it "creates frame around single character content without width & height" do
+    output = TTY::Box.frame("H")
+
+    expect(output).to eq([
+      "┌─┐\n",
+      "│H│\n",
+      "└─┘\n"
+    ].join)
+  end
+
   it "creates frame around content without width & height values" do
     output = TTY::Box.frame "Hello world!"
 
@@ -53,6 +63,7 @@ RSpec.describe TTY::Box, "#frame" do
       "└────────────┘\n"
     ].join)
   end
+
   it "creates frame with only  width & height values" do
     output = TTY::Box.frame(width: 35, height: 4)
 
