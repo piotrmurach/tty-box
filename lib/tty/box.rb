@@ -273,7 +273,7 @@ module TTY
     def infer_dimensions(lines, padding)
       pad = Strings::Padder.parse(padding)
       content_height = lines.size
-      content_width = lines.empty? ? 1 : lines.max_by(&:length).length
+      content_width = lines.empty? ? 1 : lines.map { |l| color.strip(l) }.max_by(&:length).length
       width = pad.left + content_width + pad.right
       height = pad.top + content_height + pad.bottom
       [width, height]
@@ -341,7 +341,9 @@ module TTY
     #
     # @api private
     def top_titles_size(title)
-      title[:top_left].to_s.size + title[:top_center].to_s.size + title[:top_right].to_s.size
+      color.strip(title[:top_left].to_s).size +
+        color.strip(title[:top_center].to_s).size +
+        color.strip(title[:top_right].to_s).size
     end
 
     # Top border
@@ -399,7 +401,9 @@ module TTY
     #
     # @api private
     def bottom_titles_size(title)
-      title[:bottom_left].to_s.size + title[:bottom_center].to_s.size + title[:bottom_right].to_s.size
+      color.strip(title[:bottom_left].to_s).size +
+        color.strip(title[:bottom_center].to_s).size +
+        color.strip(title[:bottom_right].to_s).size
     end
 
     # Bottom border

@@ -113,6 +113,34 @@ RSpec.describe TTY::Box, "#frame" do
     ].join)
   end
 
+  it "correctly envelopes colored text" do
+    box = TTY::Box.frame do
+      Pastel.new.green.on_red("Hello world!")
+    end
+
+    expect(box).to eq([
+      "┌────────────┐\n",
+      "│\e[32;41mHello world!\e[0m│\n",
+      "└────────────┘\n"
+    ].join)
+  end
+
+  it "correctly spaces colored titles" do
+    p = Pastel.new
+    box = TTY::Box.frame(title: {
+                           top_left: p.green.on_red("TITLE"),
+                           bottom_right: p.green.on_red("(v1.0)")
+                         }) do
+      "Hello world!"
+    end
+
+    expect(box).to eq([
+      "┌\e[32;41mTITLE\e[0m───────┐\n",
+      "│Hello world!│\n",
+      "└──────\e[32;41m(v1.0)\e[0m┘\n"
+    ].join)
+  end
+
   it "handles \r\n line breaks" do
     box = TTY::Box.frame(
           width: 29,
