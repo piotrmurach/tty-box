@@ -201,25 +201,18 @@ module TTY
       left_size   = border.left? ? 1 : 0
       right_size  = border.right ? 1 : 0
 
-      if block_given?
-        str = yield
-      else
-        str = case content.size
-        when 0 then ""
-        when 1 then content[0]
-        else content.join(NEWLINE)
-        end
-      end
-
+      str = block_given? ? yield : content_to_str(content)
       sep = str[LINE_BREAK] || NEWLINE # infer line break
       lines = str.split(sep)
+
       # infer dimensions
       dimensions = infer_dimensions(lines, padding)
       width ||= left_size + dimensions[0] + right_size
       width = [width, top_space_taken(title, border), bottom_space_taken(title, border)].max
-
       height ||= top_size + dimensions[1] + bottom_size
+
       content = format(str, width, padding, align) # adjust content
+
       # infer styling
       fg, bg = *extract_style(style)
       border_fg, border_bg = *extract_style(style[:border] || {})
@@ -262,6 +255,21 @@ module TTY
       end
 
       output.join
+    end
+
+    # Convert content array to string
+    #
+    # @param [Array<String>] content
+    #
+    # @return [String]
+    #
+    # @api private
+    def content_to_str(content)
+      case content.size
+      when 0 then ""
+      when 1 then content[0]
+      else content.join(NEWLINE)
+      end
     end
 
     # Infer box dimensions based on content lines and padding
