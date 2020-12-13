@@ -1,1 +1,1 @@
-require_relative 'tty/box'
+require_relative "tty/box"

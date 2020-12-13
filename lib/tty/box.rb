@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'strings'
-require 'pastel'
-require 'tty-cursor'
+require "strings"
+require "pastel"
+require "tty-cursor"
 
-require_relative 'box/border'
-require_relative 'box/version'
+require_relative "box/border"
+require_relative "box/version"
 
 module TTY
   module Box
@@ -135,7 +135,7 @@ module TTY
           bg: :bright_green,
           border: {
             fg: :black,
-            bg: :bright_green,
+            bg: :bright_green
           }
         }
       }.merge(opts)
@@ -187,8 +187,9 @@ module TTY
     #   the styling for the front and background
     #
     # @api public
-    def frame(*content, top: nil, left: nil, width: nil, height: nil, align: :left,
-              padding: 0, title: {}, border: :light, style: {}, enable_color: nil)
+    def frame(*content, top: nil, left: nil, width: nil, height: nil,
+              align: :left, padding: 0, title: {}, border: :light, style: {},
+              enable_color: nil)
       @color = nil
       color(enabled: enable_color)
       output = []
@@ -196,8 +197,8 @@ module TTY
       position = top && left
 
       border = Border.parse(border)
-      top_size    = border.top? ? 1: 0
-      bottom_size = border.bottom? ? 1: 0
+      top_size    = border.top? ? 1 : 0
+      bottom_size = border.bottom? ? 1 : 0
       left_size   = border.left? ? 1 : 0
       right_size  = border.right ? 1 : 0
 
@@ -208,7 +209,9 @@ module TTY
       # infer dimensions
       dimensions = infer_dimensions(lines, padding)
       width ||= left_size + dimensions[0] + right_size
-      width = [width, top_space_taken(title, border), bottom_space_taken(title, border)].max
+      width = [width,
+               top_space_taken(title, border),
+               bottom_space_taken(title, border)].max
       height ||= top_size + dimensions[1] + bottom_size
 
       content = format(str, width, padding, align) # adjust content
@@ -241,7 +244,8 @@ module TTY
 
         if border.right?
           if position
-            output << cursor.move_to(left + width - right_size, top + i + top_size)
+            output << cursor.move_to(left + width - right_size,
+                                     top + i + top_size)
           end
           output << border_bg.(border_fg.(pipe_char(border.type)))
         end
@@ -313,8 +317,8 @@ module TTY
     #
     # @api private
     def extract_style(style)
-      fg = style[:fg] ? color.send(style[:fg]).detach : -> (c) { c }
-      bg = style[:bg] ? color.send(:"on_#{style[:bg]}").detach : -> (c) { c }
+      fg = style[:fg] ? color.send(style[:fg]).detach : ->(c) { c }
+      bg = style[:bg] ? color.send(:"on_#{style[:bg]}").detach : ->(c) { c }
       [fg, bg]
     end
 
@@ -324,25 +328,35 @@ module TTY
     #
     # @api private
     def top_space_taken(title, border)
-      top_titles_size(title) + top_left_corner(border).size + top_right_corner(border).size
+      top_titles_size(title) +
+        top_left_corner(border).size +
+        top_right_corner(border).size
     end
 
     # Top left corner
+    #
+    # @param [Border] border
     #
     # @return [String]
     #
     # @api private
     def top_left_corner(border)
-      border.top_left? && border.left? ? send(:"#{border.top_left}_char", border.type) : ""
+      return "" unless border.top_left? && border.left?
+
+      send(:"#{border.top_left}_char", border.type)
     end
 
     # Top right corner
+    #
+    # @param [Border] border
     #
     # @return [String]
     #
     # @api private
     def top_right_corner(border)
-      border.top_right? && border.right? ? send(:"#{border.top_right}_char", border.type) : ""
+      return "" unless border.top_right? && border.right?
+
+      send(:"#{border.top_right}_char", border.type)
     end
 
     # Top titles size
@@ -376,33 +390,44 @@ module TTY
         bg.(fg.(line_char(border.type) * top_space_after)),
         bg.(fg.(title[:top_right].to_s)),
         bg.(fg.(top_right_corner(border)))
-      ].join('')
+      ].join
     end
+
     # Bottom space taken by titles and corners
     #
     # @return [Integer]
     #
     # @api private
     def bottom_space_taken(title, border)
-      bottom_titles_size(title) + bottom_left_corner(border).size + bottom_right_corner(border).size
+      bottom_titles_size(title) +
+        bottom_left_corner(border).size +
+        bottom_right_corner(border).size
     end
 
     # Bottom left corner
+    #
+    # @param [Border] border
     #
     # @return [String]
     #
     # @api private
     def bottom_left_corner(border)
-      border.bottom_left? && border.left? ? send(:"#{border.bottom_left}_char", border.type) : ""
+      return "" unless border.bottom_left? && border.left?
+
+      send(:"#{border.bottom_left}_char", border.type)
     end
 
     # Bottom right corner
+    #
+    # @param [Border] border
     #
     # @return [String]
     #
     # @api private
     def bottom_right_corner(border)
-      border.bottom_right? && border.right? ? send(:"#{border.bottom_right}_char", border.type) : ""
+      return "" unless border.bottom_right? && border.right?
+
+      send(:"#{border.bottom_right}_char", border.type)
     end
 
     # Bottom titles size
@@ -436,7 +461,7 @@ module TTY
         bg.(fg.(line_char(border.type) * bottom_space_after)),
         bg.(fg.(title[:bottom_right].to_s)),
         bg.(fg.(bottom_right_corner(border)))
-      ].join('')
+      ].join
     end
   end # TTY
 end # Box
