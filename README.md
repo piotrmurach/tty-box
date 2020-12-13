@@ -5,7 +5,7 @@
 # TTY::Box [![Gitter](https://badges.gitter.im/Join%20Chat.svg)][gitter]
 
 [![Gem Version](https://badge.fury.io/rb/tty-box.svg)][gem]
-[![Build Status](https://secure.travis-ci.org/piotrmurach/tty-box.svg?branch=master)][travis]
+[![Actions CI](https://github.com/piotrmurach/tty-box/workflows/CI/badge.svg?branch=master)][gh_actions_ci]
 [![Build status](https://ci.appveyor.com/api/projects/status/h9b88fk5xpya3fh1?svg=true)][appveyor]
 [![Maintainability](https://api.codeclimate.com/v1/badges/dfac05073e1549e9dbb6/maintainability)][codeclimate]
 [![Coverage Status](https://coveralls.io/repos/github/piotrmurach/tty-box/badge.svg)][coverage]
@@ -13,7 +13,7 @@
 
 [gitter]: https://gitter.im/piotrmurach/tty
 [gem]: http://badge.fury.io/rb/tty-box
-[travis]: http://travis-ci.org/piotrmurach/tty-box
+[gh_actions_ci]: https://github.com/piotrmurach/tty-box/actions?query=workflow%3ACI
 [appveyor]: https://ci.appveyor.com/project/piotrmurach/tty-box
 [codeclimate]: https://codeclimate.com/github/piotrmurach/tty-box/maintainability
 [coverage]: https://coveralls.io/github/piotrmurach/tty-box
