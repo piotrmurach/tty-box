@@ -286,11 +286,22 @@ module TTY
     # @api private
     def infer_dimensions(lines, padding)
       pad = Strings::Padder.parse(padding)
-      content_height = lines.size
-      content_width = lines.empty? ? 1 : lines.map { |l| color.strip(l) }.max_by(&:length).length
-      width = pad.left + content_width + pad.right
-      height = pad.top + content_height + pad.bottom
+      width = pad.left + content_width(lines) + pad.right
+      height = pad.top + lines.size + pad.bottom
       [width, height]
+    end
+
+    # The maximum content width for all the lines
+    #
+    # @param [Array<String>] lines
+    #
+    # @return [Integer]
+    #
+    # @api private
+    def content_width(lines)
+      return 1 if lines.empty?
+
+      lines.map(&Strings::ANSI.method(:sanitize)).max_by(&:length).length
     end
 
     # Format content
