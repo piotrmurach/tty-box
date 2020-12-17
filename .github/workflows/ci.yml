@@ -42,6 +42,7 @@ jobs:
     env:
       COVERAGE: ${{ matrix.coverage }}
       COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      BUNDLE_CACHE_PATH: vendor/bundle
     continue-on-error: ${{ endsWith(matrix.ruby, 'head') }}
     steps:
       - uses: actions/checkout@v2
@@ -51,7 +52,17 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
       - name: Install bundler
         run: gem install bundler -v '< 2.0'
+      - name: Cache dependencies
+        id: cache-gems
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ matrix.ruby }}-gems-${{ hashFiles('*.gemspec') }}-${{ hashFiles('Gemfile') }}
       - name: Install dependencies
+        if: steps.cache-gems.outputs.cache-hit != 'true'
         run: bundle install --jobs 4 --retry 3
+      - name: Update dependencies
+        if: steps.cache-gems.outputs.cache-hit == 'true'
+        run: bundle update
       - name: Run tests
         run: bundle exec rake ci
