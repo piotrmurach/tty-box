@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-require_relative '../lib/tty-box'
+require_relative "../lib/tty-box"
 
 print TTY::Cursor.clear_screen
 
-box_1 = TTY::Box.frame(
+box1 = TTY::Box.frame(
   top: 3,
   left: 10,
   width: 15,
   height: 5,
   border: {
     type: :thick,
-    right: false,
+    right: false
   },
   align: :center,
   padding: [1, 2],
@@ -23,7 +23,7 @@ box_1 = TTY::Box.frame(
   }
 ) { "Space" }
 
-box_2 = TTY::Box.frame(
+box2 = TTY::Box.frame(
   top: 3,
   left: 25,
   width: 15,
@@ -34,7 +34,7 @@ box_2 = TTY::Box.frame(
     bottom_left: :divider_up
   },
   align: :center,
-  padding: [1,2],
+  padding: [1, 2],
   style: {
     bg: :red,
     border: {
@@ -43,5 +43,5 @@ box_2 = TTY::Box.frame(
   }
 ) { "Invaders!" }
 
-puts box_1 + box_2
+puts box1 + box2
 print "\n" * 5

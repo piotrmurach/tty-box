@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative '../lib/tty-box'
+require_relative "../lib/tty-box"
 
 print TTY::Cursor.clear_screen
 
-box_1 = TTY::Box.frame(
+box1 = TTY::Box.frame(
   top: 2,
   left: 10,
   width: 30,
@@ -13,7 +13,7 @@ box_1 = TTY::Box.frame(
   align: :center,
   padding: 3,
   title: {
-    top_left: ' file1 '
+    top_left: " file1 "
   },
   style: {
     fg: :bright_yellow,
@@ -27,7 +27,7 @@ box_1 = TTY::Box.frame(
   "Drawing a box in terminal emulator"
 end
 
-box_2 = TTY::Box.frame(
+box2 = TTY::Box.frame(
   top: 8,
   left: 34,
   width: 30,
@@ -36,7 +36,7 @@ box_2 = TTY::Box.frame(
   align: :center,
   padding: 3,
   title: {
-    top_left: ' file2 '
+    top_left: " file2 "
   },
   style: {
     fg: :bright_yellow,
@@ -50,5 +50,5 @@ box_2 = TTY::Box.frame(
   "Drawing a box in terminal emulator"
 end
 
-puts box_1 + box_2
+puts box1 + box2
 print "\n" * 5
