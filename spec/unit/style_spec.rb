@@ -10,7 +10,7 @@ RSpec.describe TTY::Box, ":style option" do
       height: 4,
       border: :thick,
       title: {
-        top_left: ' file1 '
+        top_left: " file1 "
       },
       style: {
         fg: :bright_yellow,
@@ -25,10 +25,19 @@ RSpec.describe TTY::Box, ":style option" do
     end
 
     expect(box).to eq([
-      "\e[1;1H\e[44m\e[93m╔\e[0m\e[0m\e[44m\e[93m file1 \e[0m\e[0m\e[44m\e[93m══════════\e[0m\e[0m\e[44m\e[93m═══════════\e[0m\e[0m\e[44m\e[93m╗\e[0m\e[0m",
-      "\e[2;1H\e[44m\e[93m║\e[0m\e[0m\e[44m\e[93mMidnight Commander          \e[0m\e[0m\e[2;30H\e[44m\e[93m║\e[0m\e[0m",
-      "\e[3;1H\e[44m\e[93m║\e[0m\e[0m\e[44m\e[93mis the best                 \e[0m\e[0m\e[3;30H\e[44m\e[93m║\e[0m\e[0m",
-      "\e[4;1H\e[44m\e[93m╚\e[0m\e[0m\e[44m\e[93m══════════════\e[0m\e[0m\e[44m\e[93m══════════════\e[0m\e[0m\e[44m\e[93m╝\e[0m\e[0m"
+      "\e[1;1H\e[44m\e[93m╔\e[0m\e[0m\e[44m\e[93m",
+      " file1 \e[0m\e[0m\e[44m\e[93m══════════\e[0m\e[0m",
+      "\e[44m\e[93m═══════════\e[0m\e[0m\e[44m\e[93m╗\e[0m\e[0m",
+
+      "\e[2;1H\e[44m\e[93m║\e[0m\e[0m\e[44m\e[93m",
+      "Midnight Commander          ",
+      "\e[0m\e[0m\e[2;30H\e[44m\e[93m║\e[0m\e[0m",
+
+      "\e[3;1H\e[44m\e[93m║\e[0m\e[0m\e[44m\e[93m",
+      "is the best                 \e[0m\e[0m\e[3;30H\e[44m\e[93m║\e[0m\e[0m",
+
+      "\e[4;1H\e[44m\e[93m╚\e[0m\e[0m\e[44m\e[93m══════════════\e[0m\e[0m",
+      "\e[44m\e[93m══════════════\e[0m\e[0m\e[44m\e[93m╝\e[0m\e[0m"
     ].join)
   end
 
@@ -40,11 +49,11 @@ RSpec.describe TTY::Box, ":style option" do
         top_left: false,
         top_right: false,
         bottom_left: false,
-        bottom_right: false,
+        bottom_right: false
       },
       style: {
         fg: :bright_yellow,
-        bg: :blue,
+        bg: :blue
       }
     )
 
@@ -66,7 +75,7 @@ RSpec.describe TTY::Box, ":style option" do
       },
       style: {
         fg: :bright_yellow,
-        bg: :blue,
+        bg: :blue
       }
     )
 
@@ -88,7 +97,7 @@ RSpec.describe TTY::Box, ":style option" do
       },
       style: {
         fg: :bright_yellow,
-        bg: :blue,
+        bg: :blue
       }
     )
 
@@ -96,7 +105,7 @@ RSpec.describe TTY::Box, ":style option" do
       "│\e[44m\e[93m        \e[0m\e[0m│\n",
       "│\e[44m\e[93m        \e[0m\e[0m│\n",
       "│\e[44m\e[93m        \e[0m\e[0m│\n",
-      "│\e[44m\e[93m        \e[0m\e[0m│\n",
+      "│\e[44m\e[93m        \e[0m\e[0m│\n"
     ].join)
   end
 
@@ -122,7 +131,8 @@ RSpec.describe TTY::Box, ":style option" do
       "\e[44m\e[93m         \e[0m\e[0m\e[44m\e[93m│\e[0m\e[0m\n",
       "\e[44m\e[93m         \e[0m\e[0m\e[44m\e[93m│\e[0m\e[0m\n",
       "\e[44m\e[93m         \e[0m\e[0m\e[44m\e[93m│\e[0m\e[0m\n",
-      "\e[44m\e[93m────\e[0m\e[0m\e[44m\e[93m─────\e[0m\e[0m\e[44m\e[93m┘\e[0m\e[0m\n"
+      "\e[44m\e[93m────\e[0m\e[0m",
+      "\e[44m\e[93m─────\e[0m\e[0m\e[44m\e[93m┘\e[0m\e[0m\n"
     ].join)
   end
 end

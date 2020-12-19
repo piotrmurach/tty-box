@@ -153,10 +153,7 @@ RSpec.describe TTY::Box, "#frame" do
   end
 
   it "handles \r\n line breaks" do
-    box = TTY::Box.frame(
-          width: 29,
-          height: 7
-        ) do
+    box = TTY::Box.frame(width: 29, height: 7) do
       "Closes #360\r\n\r\nCloses !217"
     end
 

@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
-RSpec.describe TTY::Box, ':title option' do
-  it "allows to specify top border titles"  do
+RSpec.describe TTY::Box, ":title option" do
+  it "allows to specify top border titles" do
     output = TTY::Box.frame(
       top: 0, left: 0,
       width: 35, height: 4,
       title: {
-        top_left: 'left',
-        top_right: 'right',
-        top_center: 'center'
-      })
+        top_left: "left",
+        top_right: "right",
+        top_center: "center"
+      }
+    )
 
     expect(output).to eq([
       "\e[1;1H┌left─────────center─────────right┐",
@@ -18,15 +19,16 @@ RSpec.describe TTY::Box, ':title option' do
     ].join)
   end
 
-  it "allows to specify bottom border titles"  do
+  it "allows to specify bottom border titles" do
     output = TTY::Box.frame(
       top: 0, left: 0,
       width: 35, height: 4,
       title: {
-        bottom_left: 'left',
-        bottom_right: 'right',
-        bottom_center: 'center'
-      })
+        bottom_left: "left",
+        bottom_right: "right",
+        bottom_center: "center"
+      }
+    )
 
     expect(output).to eq([
       "\e[1;1H┌─────────────────────────────────┐",
@@ -38,7 +40,7 @@ RSpec.describe TTY::Box, ':title option' do
   it "allows the top title to be longer than the message" do
     output = TTY::Box.frame("BOO!",
                             title: {
-                              top_left: " ⚠ WARNING ",
+                              top_left: " ⚠ WARNING "
                             })
 
     expect(output).to eq([

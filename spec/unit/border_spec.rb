@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe TTY::Box, ':border option' do
+RSpec.describe TTY::Box, ":border option" do
   it "creates frame with double lines and no position" do
     box = TTY::Box.frame(
       width: 35, height: 4,
@@ -40,7 +40,7 @@ RSpec.describe TTY::Box, ':border option' do
       "+--------+\n",
       "|        |\n",
       "|        |\n",
-      "+--------+\n",
+      "+--------+\n"
     ].join)
   end
 
@@ -59,7 +59,7 @@ RSpec.describe TTY::Box, ':border option' do
       "\e[1;1H║Hello Piotr! \e[1;15H║",
       "\e[2;1H║\e[2;15H║",
       "\e[3;1H║\e[3;15H║",
-      "\e[4;1H║\e[4;15H║",
+      "\e[4;1H║\e[4;15H║"
     ].join)
   end
 
@@ -145,8 +145,10 @@ RSpec.describe TTY::Box, ':border option' do
 
   it "fails to recognise border option" do
     expect {
-     TTY::Box.frame(width: 35, height: 4, border: [:unknown])
-    }.to raise_error(ArgumentError,
-                     "Wrong value `[:unknown]` for :border configuration option")
+      TTY::Box.frame(width: 35, height: 4, border: [:unknown])
+    }.to raise_error(
+      ArgumentError,
+      "Wrong value `[:unknown]` for :border configuration option"
+    )
   end
 end
