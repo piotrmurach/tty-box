@@ -204,17 +204,18 @@ module TTY
 
       str = block_given? ? yield : content_to_str(content)
       sep = str[LINE_BREAK] || NEWLINE # infer line break
-      lines = str.split(sep)
+      content_lines = str.split(sep)
 
       # infer dimensions
-      dimensions = infer_dimensions(lines, padding)
+      dimensions = infer_dimensions(content_lines, padding)
       width ||= left_size + dimensions[0] + right_size
       width = [width,
                top_space_taken(title, border),
                bottom_space_taken(title, border)].max
       height ||= top_size + dimensions[1] + bottom_size
 
-      content = format(str, width, padding, align) # adjust content
+      # apply formatting to content
+      formatted_lines = format(content_lines, width, padding, align, sep)
 
       # infer styling
       fg, bg = *extract_style(style)
@@ -233,11 +234,13 @@ module TTY
         end
 
         content_size = width - left_size - right_size
-        unless content[i].nil?
-          output << bg.(fg.(content[i]))
-          size = Strings::ANSI.sanitize(content[i]).scan(/[[:print:]]/).join.size
+        unless formatted_lines[i].nil?
+          output << bg.(fg.(formatted_lines[i]))
+          size = Strings::ANSI.sanitize(formatted_lines[i])
+                              .scan(/[[:print:]]/).join.size
           content_size -= size
         end
+
         if style[:fg] || style[:bg] || !position # something to color
           output << bg.(fg.(" " * content_size))
         end
@@ -304,22 +307,37 @@ module TTY
       lines.map(&Strings::ANSI.method(:sanitize)).max_by(&:length).length
     end
 
-    # Format content
+    # Format content by wrapping, aligning and padding out
+    #
+    # @param [Array<String>] lines
+    #   the lines to format
+    # @param [Integer] width
+    #   the maximum width
+    # @param [Integer, Array<Integer>] padding
+    #   the amount of padding
+    # @param [Symbol] align
+    #   the type of alignment
+    # @param [String] separator
+    #   the newline separator
     #
     # @return [Array[String]]
     #
     # @api private
-    def format(content, width, padding, align)
-      return "" if content.to_s.empty?
+    def format(lines, width, padding, align, separator)
+      return [] if lines.empty?
 
       pad = Strings::Padder.parse(padding)
       total_width = width - 2 - (pad.left + pad.right)
-      sep = content[LINE_BREAK] || NEWLINE # infer line break
 
-      wrapped = Strings.wrap(content, total_width)
-      aligned = Strings.align(wrapped, total_width, direction: align)
-      padded  = Strings.pad(aligned, padding)
-      padded.split(sep)
+      formatted = lines.each_with_object([]) do |line, acc|
+        wrapped = Strings::Wrap.wrap(line, total_width, separator: separator)
+        acc << Strings::Align.align(wrapped, total_width,
+                                    direction: align,
+                                    separator: separator)
+      end.join(separator)
+
+      Strings::Pad.pad(formatted, padding, separator: separator)
+                  .split(separator)
     end
 
     # Convert style keywords into styling

@@ -136,6 +136,21 @@ RSpec.describe TTY::Box, "#frame" do
     ].join)
   end
 
+  it "displays multiline colored content" do
+    p = Pastel.new(enabled: true)
+    content = p.green("Hello") + "\n" + p.yellow("world!")
+    box = TTY::Box.frame(content, padding: 1)
+
+    expect(box).to eq([
+      "┌────────┐\n",
+      "│        │\n",
+      "│ \e[32mHello\e[0m  │\n",
+      "│ \e[33mworld!\e[0m │\n",
+      "│        │\n",
+      "└────────┘\n"
+    ].join)
+  end
+
   it "correctly spaces colored titles" do
     p = Pastel.new(enabled: true)
     box = TTY::Box.frame(title: {
