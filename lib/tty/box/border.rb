@@ -6,18 +6,18 @@ module TTY
     #
     # @api private
     class Border
-      BORDER_VALUES = [
-        :corner_bottom_right,
-        :corner_top_right,
-        :corner_top_left,
-        :corner_bottom_left,
-        :divider_left,
-        :divider_up,
-        :divider_down,
-        :divider_right,
-        :line,
-        :pipe,
-        :cross
+      BORDER_VALUES = %i[
+        corner_bottom_right
+        corner_top_right
+        corner_top_left
+        corner_bottom_left
+        divider_left
+        divider_up
+        divider_down
+        divider_right
+        line
+        pipe
+        cross
       ].freeze
 
       def self.parse(border)
@@ -68,11 +68,17 @@ module TTY
       private
 
       # Check if border values name is allowed
+      #
+      # @raise [ArgumentError]
+      #
       # @api private
       def check_name(key, value)
-        unless (BORDER_VALUES.include?(:"#{value}") || [true, false].include?(value))
-          raise ArgumentError, "Invalid border value: '#{value}' for #{key.inspect}"
+        unless BORDER_VALUES.include?(:"#{value}") ||
+               [true, false].include?(value)
+          raise ArgumentError, "invalid #{key.inspect} border value: " \
+                              "#{value.inspect}"
         end
+
         value
       end
     end # Border

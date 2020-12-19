@@ -139,13 +139,14 @@ RSpec.describe TTY::Box, ':border option' do
 
   it "fails to recognise border value" do
     expect {
-      TTY::Box.frame(border: {left: :unknown})
-    }.to raise_error(ArgumentError, "Invalid border value: 'unknown' for :left")
+      TTY::Box.frame(border: { left: :unknown })
+    }.to raise_error(ArgumentError, "invalid :left border value: :unknown")
   end
 
   it "fails to recognise border option" do
     expect {
      TTY::Box.frame(width: 35, height: 4, border: [:unknown])
-    }.to raise_error(ArgumentError, "Wrong value `[:unknown]` for :border configuration option")
+    }.to raise_error(ArgumentError,
+                     "Wrong value `[:unknown]` for :border configuration option")
   end
 end
