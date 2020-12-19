@@ -3,9 +3,9 @@ source "https://rubygems.org"
 gemspec
 
 group :test do
-  gem "benchmark-ips", "~> 2.7.2"
+  gem "benchmark-ips", "~> 2.8.4"
   gem "simplecov", "~> 0.16.1"
-  gem "coveralls", "~> 0.8.22"
+  gem "coveralls", "~> 0.8.23"
 end
 
 group :metrics do
