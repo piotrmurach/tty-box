@@ -2,6 +2,10 @@ source "https://rubygems.org"
 
 gemspec
 
+if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("2.1.0")
+  gem "rspec-benchmark", "~> 0.6"
+end
+
 group :test do
   gem "benchmark-ips", "~> 2.8.4"
   gem "simplecov", "~> 0.16.1"
