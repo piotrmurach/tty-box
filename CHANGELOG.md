@@ -1,5 +1,17 @@
 # Change log
 
+## [v0.7.0] - 2020-12-20
+
+### Added
+* Add :enable_color configuration to allow control over colouring
+
+### Changed
+* Change to ensure non-negative space filler size
+
+### Fixed
+* Fix box width calculation to ignore colored text by @LainLayer
+* Fix drawing frame around multiline colored content
+
 ## [v0.6.0] - 2020-08-11
 
 ### Changed
@@ -62,6 +74,7 @@
 
 * Initial implementation and release
 
+[v0.7.0]: https://github.com/piotrmurach/tty-box/compare/v0.6.0...v0.7.0
 [v0.6.0]: https://github.com/piotrmurach/tty-box/compare/v0.5.0...v0.6.0
 [v0.5.0]: https://github.com/piotrmurach/tty-box/compare/v0.4.1...v0.5.0
 [v0.4.1]: https://github.com/piotrmurach/tty-box/compare/v0.4.0...v0.4.1
