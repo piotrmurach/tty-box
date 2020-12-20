@@ -7,6 +7,7 @@
 
 ### Changed
 * Change to ensure non-negative space filler size
+* Change to enforce private visibility for the private module methods
 
 ### Fixed
 * Fix box width calculation to ignore colored text by @LainLayer
