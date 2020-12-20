@@ -234,9 +234,9 @@ module TTY
         end
 
         content_size = width - left_size - right_size
-        unless formatted_lines[i].nil?
-          output << bg.(fg.(formatted_lines[i]))
-          size = Strings::ANSI.sanitize(formatted_lines[i])
+        if formatted_line = formatted_lines[i]
+          output << bg.(fg.(formatted_line))
+          size = Strings::ANSI.sanitize(formatted_line)
                               .scan(/[[:print:]]/).join.size
           content_size -= size
         end
