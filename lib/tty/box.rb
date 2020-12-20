@@ -12,6 +12,7 @@ module TTY
     module_function
 
     NEWLINE = "\n"
+    SPACE = " "
 
     LINE_BREAK = %r{\r\n|\r|\n}.freeze
 
@@ -233,16 +234,16 @@ module TTY
           output << border_bg.(border_fg.(pipe_char(border.type)))
         end
 
-        content_size = width - left_size - right_size
+        filler_size = width - left_size - right_size
         if formatted_line = formatted_lines[i]
           output << bg.(fg.(formatted_line))
-          size = Strings::ANSI.sanitize(formatted_line)
-                              .scan(/[[:print:]]/).join.size
-          content_size -= size
+          line_content_size = Strings::ANSI.sanitize(formatted_line)
+                                           .scan(/[[:print:]]/).join.size
+          filler_size = [filler_size - line_content_size, 0].max
         end
 
         if style[:fg] || style[:bg] || !position # something to color
-          output << bg.(fg.(" " * content_size))
+          output << bg.(fg.(SPACE * filler_size))
         end
 
         if border.right?
