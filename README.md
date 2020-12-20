@@ -310,7 +310,7 @@ print box
 If you want to remove a given border element as a value use `false`. For example to remove bottom border do:
 
 ```ruby
-TTY::Box.new(
+TTY::Box.frame(
   width: 30, height: 10,
   border: {
     type: :thick,
