@@ -279,6 +279,7 @@ module TTY
       else content.join(NEWLINE)
       end
     end
+    private_class_method :content_to_str
 
     # Infer box dimensions based on content lines and padding
     #
@@ -294,6 +295,7 @@ module TTY
       height = pad.top + lines.size + pad.bottom
       [width, height]
     end
+    private_class_method :infer_dimensions
 
     # The maximum content width for all the lines
     #
@@ -307,6 +309,7 @@ module TTY
 
       lines.map(&Strings::ANSI.method(:sanitize)).max_by(&:length).length
     end
+    private_class_method :content_width
 
     # Format content by wrapping, aligning and padding out
     #
@@ -340,6 +343,7 @@ module TTY
       Strings::Pad.pad(formatted, padding, separator: separator)
                   .split(separator)
     end
+    private_class_method :format
 
     # Convert style keywords into styling
     #
@@ -351,6 +355,7 @@ module TTY
       bg = style[:bg] ? color.send(:"on_#{style[:bg]}").detach : ->(c) { c }
       [fg, bg]
     end
+    private_class_method :extract_style
 
     # Top space taken by titles and corners
     #
@@ -362,6 +367,7 @@ module TTY
         top_left_corner(border).size +
         top_right_corner(border).size
     end
+    private_class_method :top_space_taken
 
     # Top left corner
     #
@@ -375,6 +381,7 @@ module TTY
 
       send(:"#{border.top_left}_char", border.type)
     end
+    private_class_method :top_left_corner
 
     # Top right corner
     #
@@ -388,6 +395,7 @@ module TTY
 
       send(:"#{border.top_right}_char", border.type)
     end
+    private_class_method :top_right_corner
 
     # Top titles size
     #
@@ -399,6 +407,7 @@ module TTY
         color.strip(title[:top_center].to_s).size +
         color.strip(title[:top_right].to_s).size
     end
+    private_class_method :top_titles_size
 
     # Top border
     #
@@ -422,6 +431,7 @@ module TTY
         bg.(fg.(top_right_corner(border)))
       ].join
     end
+    private_class_method :top_border
 
     # Bottom space taken by titles and corners
     #
@@ -433,6 +443,7 @@ module TTY
         bottom_left_corner(border).size +
         bottom_right_corner(border).size
     end
+    private_class_method :bottom_space_taken
 
     # Bottom left corner
     #
@@ -446,6 +457,7 @@ module TTY
 
       send(:"#{border.bottom_left}_char", border.type)
     end
+    private_class_method :bottom_left_corner
 
     # Bottom right corner
     #
@@ -459,6 +471,7 @@ module TTY
 
       send(:"#{border.bottom_right}_char", border.type)
     end
+    private_class_method :bottom_right_corner
 
     # Bottom titles size
     #
@@ -470,6 +483,7 @@ module TTY
         color.strip(title[:bottom_center].to_s).size +
         color.strip(title[:bottom_right].to_s).size
     end
+    private_class_method :bottom_titles_size
 
     # Bottom border
     #
@@ -493,5 +507,6 @@ module TTY
         bg.(fg.(bottom_right_corner(border)))
       ].join
     end
+    private_class_method :bottom_border
   end # TTY
 end # Box
