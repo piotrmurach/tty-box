@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://piotrmurach.github.io/tty" target="_blank"><img width="130" src="https://github.com/piotrmurach/tty/blob/master/images/tty.png" alt="tty logo" /></a>
+  <a href="https://ttytoolkit.org"><img width="130" src="https://github.com/piotrmurach/tty/blob/master/images/tty.png" alt="TTY Toolkit logo" /></a>
 </div>
 
 # TTY::Box [![Gitter](https://badges.gitter.im/Join%20Chat.svg)][gitter]
@@ -334,6 +334,20 @@ style: {
 ```
 
 The above style configuration will produce the result similar to the top demo, a MS-DOS look & feel window.
+
+You can disable or force output styling regardless of the terminal using the `enable_color` keyword. By default, the color support is automatically detected.
+
+```ruby
+TTY::Box.frame({
+  enable_color: true, # force to always color output
+  style: {
+    border: {
+      fg: :bright_yellow,
+      bg: :blue
+    }
+  }
+})
+```
 
 ### 2.7 formatting
 
