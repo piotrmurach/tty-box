@@ -228,9 +228,29 @@ module TTY
                     @border.right_size + @padding.right
       width ||= total_width
       @width = [width, top_space_taken, bottom_space_taken].max
-      @formatted_lines = format_content(@content_lines, @width)
+      @formatted_lines = format_content(@content_lines, content_width)
       @height = height ||
                 @border.top_size + @formatted_lines.size + @border.bottom_size
+    end
+
+    # The maximum content width without border and padding
+    #
+    # @return [Integer]
+    #
+    # @api public
+    def content_width
+      @width - @border.left_size - @padding.left -
+        @padding.right - @border.right_size
+    end
+
+    # The maximum content height without border and padding
+    #
+    # @return [Integer]
+    #
+    # @api public
+    def content_height
+      @height - @border.top_size - @padding.top -
+        @padding.bottom - @border.bottom_size
     end
 
     # Check whether this box is positioned or not
@@ -430,7 +450,7 @@ module TTY
     # @param [Array<String>] lines
     #   the content lines to format
     # @param [Integer] width
-    #   the maximum width
+    #   the maximum content width
     #
     # @return [Array[String]]
     #   the formatted content
@@ -439,12 +459,9 @@ module TTY
     def format_content(lines, width)
       return [] if lines.empty?
 
-      total_width = width - (@border.left_size + @border.right_size) -
-                    (@padding.left + @padding.right)
-
       formatted = lines.each_with_object([]) do |line, acc|
-        wrapped = Strings::Wrap.wrap(line, total_width, separator: @sep)
-        acc << Strings::Align.align(wrapped, total_width,
+        wrapped = Strings::Wrap.wrap(line, width, separator: @sep)
+        acc << Strings::Align.align(wrapped, width,
                                     direction: @align,
                                     separator: @sep)
       end.join(@sep)

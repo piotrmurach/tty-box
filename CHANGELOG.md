@@ -5,6 +5,7 @@
 ### Added
 * Add render method to retrieve box content wrapped in a frame
 * Add ability to access box height and width
+* Add #content_width and #content_height to access content size excluding border and padding
 
 ### Changed
 * Change Box to be a class to allow instance-level configuration

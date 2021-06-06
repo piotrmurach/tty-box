@@ -6,6 +6,8 @@ RSpec.describe TTY::Box, ".new" do
 
     expect(box.width).to eq(13)
     expect(box.height).to eq(3)
+    expect(box.content_width).to eq(11)
+    expect(box.content_height).to eq(1)
 
     expect(box.render).to eq([
       "┌───────────┐\n",
@@ -19,6 +21,8 @@ RSpec.describe TTY::Box, ".new" do
 
     expect(box.width).to eq(7)
     expect(box.height).to eq(5)
+    expect(box.content_width).to eq(5)
+    expect(box.content_height).to eq(3)
 
     expect(box.render).to eq([
       "┌─────┐\n",
@@ -34,6 +38,8 @@ RSpec.describe TTY::Box, ".new" do
 
     expect(box.width).to eq(11)
     expect(box.height).to eq(7)
+    expect(box.content_width).to eq(5)
+    expect(box.content_height).to eq(3)
 
     expect(box.render).to eq([
       "┌─────────┐\n",
@@ -51,6 +57,8 @@ RSpec.describe TTY::Box, ".new" do
 
     expect(box.width).to eq(12)
     expect(box.height).to eq(7)
+    expect(box.content_width).to eq(6)
+    expect(box.content_height).to eq(3)
 
     expect(box.render).to eq([
       "┌──────────┐\n",
@@ -69,6 +77,8 @@ RSpec.describe TTY::Box, ".new" do
 
     expect(box.width).to eq(11)
     expect(box.height).to eq(1)
+    expect(box.content_width).to eq(11)
+    expect(box.content_height).to eq(1)
 
     expect(box.render).to eq([
       "Hello world\n"
