@@ -17,4 +17,12 @@ RSpec.describe TTY::Box do
       YAML.dump(content)
     }.at_most(12.5).times
   end
+
+  it "displays box allocating no more than 423 objects" do
+    content = "Hello World"
+
+    expect {
+      TTY::Box.frame(content)
+    }.to perform_allocation(423).objects
+  end
 end
