@@ -8,82 +8,26 @@ require_relative "box/border"
 require_relative "box/version"
 
 module TTY
-  module Box
-    module_function
-
+  # Responsible for drawing a box around content
+  #
+  # @api public
+  class Box
     NEWLINE = "\n"
     SPACE = " "
-
-    LINE_BREAK = %r{\r\n|\r|\n}.freeze
-
-    BOX_CHARS = {
-      ascii: %w[+ + + + + + + + - | +],
-      light: %w[┘ ┐ ┌ └ ┤ ┴ ┬ ├ ─ │ ┼],
-      thick: %w[╝ ╗ ╔ ╚ ╣ ╩ ╦ ╠ ═ ║ ╬]
-    }.freeze
-
-    def corner_bottom_right_char(border = :light)
-      BOX_CHARS[border][0]
-    end
-
-    def corner_top_right_char(border = :light)
-      BOX_CHARS[border][1]
-    end
-
-    def corner_top_left_char(border = :light)
-      BOX_CHARS[border][2]
-    end
-
-    def corner_bottom_left_char(border = :light)
-      BOX_CHARS[border][3]
-    end
-
-    def divider_left_char(border = :light)
-      BOX_CHARS[border][4]
-    end
-
-    def divider_up_char(border = :light)
-      BOX_CHARS[border][5]
-    end
-
-    def divider_down_char(border = :light)
-      BOX_CHARS[border][6]
-    end
-
-    def divider_right_char(border = :light)
-      BOX_CHARS[border][7]
-    end
-
-    def line_char(border = :light)
-      BOX_CHARS[border][8]
-    end
-
-    def pipe_char(border = :light)
-      BOX_CHARS[border][9]
-    end
-
-    def cross_char(border = :light)
-      BOX_CHARS[border][10]
-    end
-
-    def cursor
-      TTY::Cursor
-    end
-
-    def color(enabled: nil)
-      @color ||= Pastel.new(enabled: enabled)
-    end
+    LINE_BREAK = /\r\n|\r|\n/.freeze
 
     # A frame for info type message
     #
-    # @param [String] message
-    #   the message to display
+    # @param [Array<String>] messages
+    #   the message(s) to display
+    #
+    # @return [String]
     #
     # @api public
-    def info(message, **opts)
+    def self.info(*messages, **opts, &block)
       new_opts = {
-        title: { top_left: " ℹ INFO " },
-        border: { type: :thick },
+        title: {top_left: " ℹ INFO "},
+        border: {type: :thick},
         padding: 1,
         style: {
           fg: :black,
@@ -94,19 +38,21 @@ module TTY
           }
         }
       }.merge(opts)
-      frame(**new_opts) { message }
+      frame(*messages, **new_opts, &block)
     end
 
     # A frame for warning type message
     #
-    # @param [String] message
-    #   the message to display
+    # @param [Array<String>] messages
+    #   the message(s) to display
+    #
+    # @return [String]
     #
     # @api public
-    def warn(message, **opts)
+    def self.warn(*messages, **opts, &block)
       new_opts = {
-        title: { top_left: " ⚠ WARNING " },
-        border: { type: :thick },
+        title: {top_left: " ⚠ WARNING "},
+        border: {type: :thick},
         padding: 1,
         style: {
           fg: :black,
@@ -117,19 +63,21 @@ module TTY
           }
         }
       }.merge(opts)
-      frame(**new_opts) { message }
+      frame(*messages, **new_opts, &block)
     end
 
     # A frame for for success type message
     #
-    # @param [String] message
-    #   the message to display
+    # @param [Array<String>] messages
+    #   the message(s) to display
+    #
+    # @return [String]
     #
     # @api public
-    def success(message, **opts)
+    def self.success(*messages, **opts, &block)
       new_opts = {
-        title: { top_left: " ✔ OK " },
-        border: { type: :thick },
+        title: {top_left: " ✔ OK "},
+        border: {type: :thick},
         padding: 1,
         style: {
           fg: :black,
@@ -140,19 +88,21 @@ module TTY
           }
         }
       }.merge(opts)
-      frame(**new_opts) { message }
+      frame(*messages, **new_opts, &block)
     end
 
     # A frame for error type message
     #
-    # @param [String] message
-    #   the message to display
+    # @param [String] messages
+    #   the message(s) to display
+    #
+    # @return [String]
     #
     # @api public
-    def error(message, **opts)
+    def self.error(*messages, **opts, &block)
       new_opts = {
-        title: { top_left: " ⨯ ERROR " },
-        border: { type: :thick },
+        title: {top_left: " ⨯ ERROR "},
+        border: {type: :thick},
         padding: 1,
         style: {
           fg: :bright_white,
@@ -163,10 +113,77 @@ module TTY
           }
         }
       }.merge(opts)
-      frame(**new_opts) { message }
+      frame(*messages, **new_opts, &block)
     end
 
-    # Create a frame
+    # Render frame around content
+    #
+    # @example
+    #   TTY::Box.frame { "Hello World" }
+    #
+    # @return [String]
+    #   the rendered content inside a box
+    #
+    # @api public
+    def self.frame(*content, **options, &block)
+      new(*content, **options, &block).render
+    end
+
+    # The top position
+    #
+    # @return [Integer]
+    #
+    # @api public
+    attr_reader :top
+
+    # The left position
+    #
+    # @return [Integer]
+    #
+    # @api public
+    attr_reader :left
+
+    # The maximum width with border
+    #
+    # @return [Integer]
+    #
+    # @api public
+    attr_reader :width
+
+    # The maximum height with border
+    #
+    # @return [Integer]
+    #
+    # @api public
+    attr_reader :height
+
+    # The content colouring
+    #
+    # @return [Pastel]
+    #
+    # @api public
+    attr_reader :color
+
+    # The box title(s)
+    #
+    # @return [Hash{Symbol => String}]
+    #
+    # @api public
+    attr_reader :title
+
+    # The cursor movement
+    #
+    # @return [TTY::Cursor]
+    #
+    # @api public
+    def cursor
+      TTY::Cursor
+    end
+
+    # Create a Box instance
+    #
+    # @example
+    #   box = TTY::Box.new("Hello World")
     #
     # @param [Integer] top
     #   the offset from the terminal top
@@ -178,92 +195,122 @@ module TTY
     #   the height of the box
     # @param [Symbol] align
     #   the content alignment
-    # @param [Integer,Array[Integer]] padding
+    # @param [Integer, Array<Integer>] padding
     #   the padding around content
     # @param [Hash] title
     #   the title for top or bottom border
     # @param [Hash, Symbol] border
-    #   the border type
+    #   the border type out of ascii, light and thick
     # @param [Hash] style
-    #   the styling for the front and background
+    #   the styling for the content and border
     #
     # @api public
-    def frame(*content, top: nil, left: nil, width: nil, height: nil,
-              align: :left, padding: 0, title: {}, border: :light, style: {},
-              enable_color: nil)
-      @color = nil
-      color(enabled: enable_color)
-      output = []
-      sep = NEWLINE
-      position = top && left
-
-      border = Border.parse(border)
-      top_size    = border.top? ? 1 : 0
-      bottom_size = border.bottom? ? 1 : 0
-      left_size   = border.left? ? 1 : 0
-      right_size  = border.right ? 1 : 0
-
-      str = block_given? ? yield : content_to_str(content)
-      sep = str[LINE_BREAK] || NEWLINE # infer line break
-      content_lines = str.split(sep)
-
-      # infer dimensions
-      dimensions = infer_dimensions(content_lines, padding)
-      width ||= left_size + dimensions[0] + right_size
-      width = [width,
-               top_space_taken(title, border),
-               bottom_space_taken(title, border)].max
-      height ||= top_size + dimensions[1] + bottom_size
-
-      # apply formatting to content
-      formatted_lines = format(content_lines, width, padding, align, sep)
-
+    def initialize(*content, top: nil, left: nil, width: nil, height: nil,
+                   align: :left, padding: 0, title: {}, border: :light,
+                   style: {}, enable_color: nil)
+      @color = Pastel.new(enabled: enable_color)
+      @style = style
+      @top = top
+      @left = left
+      @title = title
+      @align = align
+      @padding = Strings::Padder.parse(padding)
+      @border = Border.parse(border)
       # infer styling
-      fg, bg = *extract_style(style)
-      border_fg, border_bg = *extract_style(style[:border] || {})
+      @fg, @bg = *extract_style(@style)
+      @border_fg, @border_bg = *extract_style(@style[:border] || {})
+      str = block_given? ? yield : content_to_str(content)
+      @sep = str[LINE_BREAK] || NEWLINE # infer line break
+      @content_lines = str.split(@sep)
+      # infer dimensions
+      total_width = @border.left_size + @padding.left +
+                    original_content_width +
+                    @border.right_size + @padding.right
+      width ||= total_width
+      @width = [width, top_space_taken, bottom_space_taken].max
+      @formatted_lines = format_content(@content_lines, @width)
+      @height = height ||
+                @border.top_size + @formatted_lines.size + @border.bottom_size
+    end
 
-      if border.top?
-        output << cursor.move_to(left, top) if position
-        output << top_border(title, width, border, style)
-        output << sep unless position
+    # Check whether this box is positioned or not
+    #
+    # @return [Boolean]
+    #
+    # @api public
+    def position?
+      !@top.nil? || !@left.nil?
+    end
+
+    # Check whether the content is styled or not
+    #
+    # @return [Boolean]
+    #
+    # @api public
+    def content_style?
+      !@style[:fg].nil? || !@style[:bg].nil?
+    end
+
+    # Render content inside a box
+    #
+    # @example
+    #   box.render
+    #
+    # @return [String]
+    #   the rendered box
+    #
+    # @api public
+    def render
+      output = []
+
+      if @border.top?
+        output << cursor.move_to(@left, @top) if position?
+        output << top_border
+        output << @sep unless position?
       end
 
-      (height - top_size - bottom_size).times do |i|
-        output << cursor.move_to(left, top + i + top_size) if position
-        if border.left?
-          output << border_bg.(border_fg.(pipe_char(border.type)))
+      (@height - @border.top_size - @border.bottom_size).times do |i|
+        if position?
+          output << cursor.move_to(@left, @top + i + @border.top_size)
+        end
+        if @border.left?
+          output << @border_bg.(@border_fg.(@border.pipe_char))
         end
 
-        filler_size = width - left_size - right_size
-        if formatted_line = formatted_lines[i]
-          output << bg.(fg.(formatted_line))
+        filler_size = @width - @border.left_size - @border.right_size
+        if formatted_line = @formatted_lines[i]
+          output << @bg.(@fg.(formatted_line))
           line_content_size = Strings::ANSI.sanitize(formatted_line)
                                            .scan(/[[:print:]]/).join.size
           filler_size = [filler_size - line_content_size, 0].max
         end
 
-        if style[:fg] || style[:bg] || !position # something to color
-          output << bg.(fg.(SPACE * filler_size))
+        if content_style? || !position?
+          output << @bg.(@fg.(SPACE * filler_size))
         end
 
-        if border.right?
-          if position
-            output << cursor.move_to(left + width - right_size,
-                                     top + i + top_size)
+        if @border.right?
+          if position?
+            output << cursor.move_to(@left + @width - @border.right_size,
+                                     @top + i + @border.top_size)
           end
-          output << border_bg.(border_fg.(pipe_char(border.type)))
+          output << @border_bg.(@border_fg.(@border.pipe_char))
         end
-        output << sep unless position
+        output << @sep unless position?
       end
 
-      if border.bottom?
-        output << cursor.move_to(left, top + height - bottom_size) if position
-        output << bottom_border(title, width, border, style)
-        output << sep unless position
+      if @border.bottom?
+        if position?
+          output << cursor.move_to(@left, @top + @height - @border.bottom_size)
+        end
+        output << bottom_border
+        output << @sep unless position?
       end
 
       output.join
     end
+
+    private
 
     # Convert content array to string
     #
@@ -279,234 +326,148 @@ module TTY
       else content.join(NEWLINE)
       end
     end
-    private_class_method :content_to_str
 
-    # Infer box dimensions based on content lines and padding
-    #
-    # @param [Array[String]] lines
-    # @param [Array[Integer]|Integer] padding
-    #
-    # @return [Array[Integer]]
-    #
-    # @api private
-    def infer_dimensions(lines, padding)
-      pad = Strings::Padder.parse(padding)
-      width = pad.left + content_width(lines) + pad.right
-      height = pad.top + lines.size + pad.bottom
-      [width, height]
-    end
-    private_class_method :infer_dimensions
-
-    # The maximum content width for all the lines
-    #
-    # @param [Array<String>] lines
+    # The maximum original content width for all the lines
     #
     # @return [Integer]
     #
     # @api private
-    def content_width(lines)
-      return 1 if lines.empty?
+    def original_content_width
+      return 1 if @content_lines.empty?
 
-      lines.map(&Strings::ANSI.method(:sanitize)).max_by(&:length).length
+      @content_lines.map(&Strings::ANSI.method(:sanitize))
+                    .max_by(&:length).length
     end
-    private_class_method :content_width
+
+    # Convert style keywords into styling Proc objects
+    #
+    # @example
+    #   extract_style({fg: :bright_yellow, bg: :blue})
+    #
+    # @param [Hash{Symbol => Symbol}] style
+    #   the style configuration to extract from
+    #
+    # @return [Array<Proc>]]
+    #
+    # @api private
+    def extract_style(style)
+      [
+        style[:fg] ? color.send(style[:fg]).detach : ->(c) { c },
+        style[:bg] ? color.send(:"on_#{style[:bg]}").detach : ->(c) { c }
+      ]
+    end
 
     # Format content by wrapping, aligning and padding out
     #
     # @param [Array<String>] lines
-    #   the lines to format
+    #   the content lines to format
     # @param [Integer] width
     #   the maximum width
-    # @param [Integer, Array<Integer>] padding
-    #   the amount of padding
-    # @param [Symbol] align
-    #   the type of alignment
-    # @param [String] separator
-    #   the newline separator
     #
     # @return [Array[String]]
+    #   the formatted content
     #
     # @api private
-    def format(lines, width, padding, align, separator)
+    def format_content(lines, width)
       return [] if lines.empty?
 
-      pad = Strings::Padder.parse(padding)
-      total_width = width - 2 - (pad.left + pad.right)
+      total_width = width - (@border.left_size + @border.right_size) -
+                    (@padding.left + @padding.right)
 
       formatted = lines.each_with_object([]) do |line, acc|
-        wrapped = Strings::Wrap.wrap(line, total_width, separator: separator)
+        wrapped = Strings::Wrap.wrap(line, total_width, separator: @sep)
         acc << Strings::Align.align(wrapped, total_width,
-                                    direction: align,
-                                    separator: separator)
-      end.join(separator)
+                                    direction: @align,
+                                    separator: @sep)
+      end.join(@sep)
 
-      Strings::Pad.pad(formatted, padding, separator: separator)
-                  .split(separator)
+      Strings::Pad.pad(formatted, @padding, separator: @sep).split(@sep)
     end
-    private_class_method :format
-
-    # Convert style keywords into styling
-    #
-    # @return [Array[Proc, Proc]]
-    #
-    # @api private
-    def extract_style(style)
-      fg = style[:fg] ? color.send(style[:fg]).detach : ->(c) { c }
-      bg = style[:bg] ? color.send(:"on_#{style[:bg]}").detach : ->(c) { c }
-      [fg, bg]
-    end
-    private_class_method :extract_style
 
     # Top space taken by titles and corners
     #
     # @return [Integer]
     #
     # @api private
-    def top_space_taken(title, border)
-      top_titles_size(title) +
-        top_left_corner(border).size +
-        top_right_corner(border).size
+    def top_space_taken
+      @border.top_left_corner.size +
+        top_titles_size +
+        @border.top_right_corner.size
     end
-    private_class_method :top_space_taken
-
-    # Top left corner
-    #
-    # @param [Border] border
-    #
-    # @return [String]
-    #
-    # @api private
-    def top_left_corner(border)
-      return "" unless border.top_left? && border.left?
-
-      send(:"#{border.top_left}_char", border.type)
-    end
-    private_class_method :top_left_corner
-
-    # Top right corner
-    #
-    # @param [Border] border
-    #
-    # @return [String]
-    #
-    # @api private
-    def top_right_corner(border)
-      return "" unless border.top_right? && border.right?
-
-      send(:"#{border.top_right}_char", border.type)
-    end
-    private_class_method :top_right_corner
 
     # Top titles size
     #
     # @return [Integer]
     #
     # @api private
-    def top_titles_size(title)
+    def top_titles_size
       color.strip(title[:top_left].to_s).size +
         color.strip(title[:top_center].to_s).size +
         color.strip(title[:top_right].to_s).size
     end
-    private_class_method :top_titles_size
 
     # Top border
     #
     # @return [String]
     #
     # @api private
-    def top_border(title, width, border, style)
-      fg, bg = *extract_style(style[:border] || {})
-
-      top_space_left = width - top_space_taken(title, border)
+    def top_border
+      top_space_left = width - top_space_taken
       top_space_before = top_space_left / 2
       top_space_after  = top_space_left / 2 + top_space_left % 2
 
       [
-        bg.(fg.(top_left_corner(border))),
-        bg.(fg.(title[:top_left].to_s)),
-        bg.(fg.(line_char(border.type) * top_space_before)),
-        bg.(fg.(title[:top_center].to_s)),
-        bg.(fg.(line_char(border.type) * top_space_after)),
-        bg.(fg.(title[:top_right].to_s)),
-        bg.(fg.(top_right_corner(border)))
+        @border_bg.(@border_fg.(@border.top_left_corner)),
+        @border_bg.(@border_fg.(title[:top_left].to_s)),
+        @border_bg.(@border_fg.(@border.line_char * top_space_before)),
+        @border_bg.(@border_fg.(title[:top_center].to_s)),
+        @border_bg.(@border_fg.(@border.line_char * top_space_after)),
+        @border_bg.(@border_fg.(title[:top_right].to_s)),
+        @border_bg.(@border_fg.(@border.top_right_corner))
       ].join
     end
-    private_class_method :top_border
 
     # Bottom space taken by titles and corners
     #
     # @return [Integer]
     #
     # @api private
-    def bottom_space_taken(title, border)
-      bottom_titles_size(title) +
-        bottom_left_corner(border).size +
-        bottom_right_corner(border).size
+    def bottom_space_taken
+      @border.bottom_left_corner.size +
+        bottom_titles_size +
+        @border.bottom_right_corner.size
     end
-    private_class_method :bottom_space_taken
-
-    # Bottom left corner
-    #
-    # @param [Border] border
-    #
-    # @return [String]
-    #
-    # @api private
-    def bottom_left_corner(border)
-      return "" unless border.bottom_left? && border.left?
-
-      send(:"#{border.bottom_left}_char", border.type)
-    end
-    private_class_method :bottom_left_corner
-
-    # Bottom right corner
-    #
-    # @param [Border] border
-    #
-    # @return [String]
-    #
-    # @api private
-    def bottom_right_corner(border)
-      return "" unless border.bottom_right? && border.right?
-
-      send(:"#{border.bottom_right}_char", border.type)
-    end
-    private_class_method :bottom_right_corner
 
     # Bottom titles size
     #
     # @return [Integer]
     #
     # @api private
-    def bottom_titles_size(title)
+    def bottom_titles_size
       color.strip(title[:bottom_left].to_s).size +
         color.strip(title[:bottom_center].to_s).size +
         color.strip(title[:bottom_right].to_s).size
     end
-    private_class_method :bottom_titles_size
 
     # Bottom border
     #
     # @return [String]
     #
     # @api private
-    def bottom_border(title, width, border, style)
-      fg, bg = *extract_style(style[:border] || {})
-
-      bottom_space_left = width - bottom_space_taken(title, border)
+    def bottom_border
+      bottom_space_left = width - bottom_space_taken
       bottom_space_before = bottom_space_left / 2
       bottom_space_after = bottom_space_left / 2 + bottom_space_left % 2
 
       [
-        bg.(fg.(bottom_left_corner(border))),
-        bg.(fg.(title[:bottom_left].to_s)),
-        bg.(fg.(line_char(border.type) * bottom_space_before)),
-        bg.(fg.(title[:bottom_center].to_s)),
-        bg.(fg.(line_char(border.type) * bottom_space_after)),
-        bg.(fg.(title[:bottom_right].to_s)),
-        bg.(fg.(bottom_right_corner(border)))
+        @border_bg.(@border_fg.(@border.bottom_left_corner)),
+        @border_bg.(@border_fg.(title[:bottom_left].to_s)),
+        @border_bg.(@border_fg.(@border.line_char * bottom_space_before)),
+        @border_bg.(@border_fg.(title[:bottom_center].to_s)),
+        @border_bg.(@border_fg.(@border.line_char * bottom_space_after)),
+        @border_bg.(@border_fg.(title[:bottom_right].to_s)),
+        @border_bg.(@border_fg.(@border.bottom_right_corner))
       ].join
     end
-    private_class_method :bottom_border
-  end # TTY
-end # Box
+  end # Box
+end # TTY

@@ -1,5 +1,17 @@
 # Change log
 
+## [v0.8.0] - unreleased
+
+### Added
+* Add render method to retrieve box content wrapped in a frame
+* Add ability to access box height and width
+
+### Changed
+* Change Box to be a class to allow instance-level configuration
+
+### Fixed
+* Fix content formatting to account for border size
+
 ## [v0.7.0] - 2020-12-20
 
 ### Added
@@ -75,6 +87,7 @@
 
 * Initial implementation and release
 
+[v0.8.0]: https://github.com/piotrmurach/tty-box/compare/v0.7.0...v0.8.0
 [v0.7.0]: https://github.com/piotrmurach/tty-box/compare/v0.6.0...v0.7.0
 [v0.6.0]: https://github.com/piotrmurach/tty-box/compare/v0.5.0...v0.6.0
 [v0.5.0]: https://github.com/piotrmurach/tty-box/compare/v0.4.1...v0.5.0
@@ -83,4 +96,4 @@
 [v0.3.0]: https://github.com/piotrmurach/tty-box/compare/v0.2.1...v0.3.0
 [v0.2.1]: https://github.com/piotrmurach/tty-box/compare/v0.2.0...v0.2.1
 [v0.2.0]: https://github.com/piotrmurach/tty-box/compare/v0.1.0...v0.2.0
-[v0.1.0]: https://github.com/piotrmurach/tty-box/compare/v0.1.0
+[v0.1.0]: https://github.com/piotrmurach/tty-box/compare/00a8a85...v0.1.0

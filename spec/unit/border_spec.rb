@@ -75,7 +75,7 @@ RSpec.describe TTY::Box, ":border option" do
 
     expect(box).to eq([
       "\e[1;1H───────────────",
-      "\e[2;1HHello Piotr! ",
+      "\e[2;1HHello Piotr!   ",
       "\e[3;1H",
       "\e[4;1H───────────────"
     ].join)
@@ -92,7 +92,7 @@ RSpec.describe TTY::Box, ":border option" do
     ) { "Hello Piotr!" }
 
     expect(box).to eq([
-      "\e[1;1HHello Piotr! \e[1;15H│",
+      "\e[1;1HHello Piotr!  \e[1;15H│",
       "\e[2;1H\e[2;15H│",
       "\e[3;1H\e[3;15H│",
       "\e[4;1H──────────────┘"

@@ -2,7 +2,7 @@
 
 RSpec.describe TTY::Box, ":style option" do
   it "applies styling to content and border" do
-    box = TTY::Box.frame(
+    box = TTY::Box.new(
       enable_color: true,
       top: 0,
       left: 0,
@@ -24,7 +24,8 @@ RSpec.describe TTY::Box, ":style option" do
       "Midnight Commander\nis the best"
     end
 
-    expect(box).to eq([
+    expect(box.content_style?).to eq(true)
+    expect(box.render).to eq([
       "\e[1;1H\e[44m\e[93m╔\e[0m\e[0m\e[44m\e[93m",
       " file1 \e[0m\e[0m\e[44m\e[93m══════════\e[0m\e[0m",
       "\e[44m\e[93m═══════════\e[0m\e[0m\e[44m\e[93m╗\e[0m\e[0m",
@@ -42,7 +43,7 @@ RSpec.describe TTY::Box, ":style option" do
   end
 
   it "creates box without corners and only color fill" do
-    box = TTY::Box.frame(
+    box = TTY::Box.new(
       enable_color: true,
       width: 10, height: 4,
       border: {
@@ -57,7 +58,8 @@ RSpec.describe TTY::Box, ":style option" do
       }
     )
 
-    expect(box).to eq([
+    expect(box.content_style?).to eq(true)
+    expect(box.render).to eq([
       "──────────\n",
       "│\e[44m\e[93m        \e[0m\e[0m│\n",
       "│\e[44m\e[93m        \e[0m\e[0m│\n",

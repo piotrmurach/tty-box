@@ -58,4 +58,27 @@ RSpec.describe TTY::Box::Border, ".parse" do
     expect(top_border).to eq(%i[divider_right line divider_left])
     expect(bottom_border).to eq(%i[divider_down line divider_up])
   end
+
+  it "defaults border size to one" do
+    border = TTY::Box::Border.parse({})
+
+    expect(border.top_size).to eq(1)
+    expect(border.bottom_size).to eq(1)
+    expect(border.left_size).to eq(1)
+    expect(border.right_size).to eq(1)
+  end
+
+  it "returns zero size for no border" do
+    border = TTY::Box::Border.parse({
+      top: false,
+      left: false,
+      right: false,
+      bottom: false
+    })
+
+    expect(border.top_size).to eq(0)
+    expect(border.left_size).to eq(0)
+    expect(border.right_size).to eq(0)
+    expect(border.bottom_size).to eq(0)
+  end
 end
