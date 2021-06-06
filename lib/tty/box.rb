@@ -262,55 +262,99 @@ module TTY
     # @api public
     def render
       output = []
+      output << render_top_border if @border.top?
 
-      if @border.top?
-        output << cursor.move_to(@left, @top) if position?
-        output << top_border
+      (@height - @border.top_size - @border.bottom_size).times do |y|
+        output << render_left_border(y)
+        output << render_content_line(@formatted_lines[y])
+        output << render_right_border(y) if @border.right?
         output << @sep unless position?
       end
 
-      (@height - @border.top_size - @border.bottom_size).times do |i|
-        if position?
-          output << cursor.move_to(@left, @top + i + @border.top_size)
-        end
-        if @border.left?
-          output << color_border(@border.pipe_char)
-        end
-
-        filler_size = @width - @border.left_size - @border.right_size
-        if formatted_line = @formatted_lines[i]
-          output << color_content(formatted_line)
-          line_content_size = Strings::ANSI.sanitize(formatted_line)
-                                           .scan(/[[:print:]]/).join.size
-          filler_size = [filler_size - line_content_size, 0].max
-        end
-
-        if content_style? || !position?
-          output << color_content(SPACE * filler_size)
-        end
-
-        if @border.right?
-          if position?
-            output << cursor.move_to(@left + @width - @border.right_size,
-                                     @top + i + @border.top_size)
-          end
-          output << color_border(@border.pipe_char)
-        end
-        output << @sep unless position?
-      end
-
-      if @border.bottom?
-        if position?
-          output << cursor.move_to(@left, @top + @height - @border.bottom_size)
-        end
-        output << bottom_border
-        output << @sep unless position?
-      end
-
+      output << render_bottom_border if @border.bottom?
       output.join
     end
 
     private
+
+    # Render top border
+    #
+    # @return [String]
+    #
+    # @api private
+    def render_top_border
+      position = cursor.move_to(@left, @top) if position?
+      "#{position}#{top_border}#{@sep unless position?}"
+    end
+
+    # Render left border
+    #
+    # @param [Integer] offset
+    #   the offset from the top border
+    #
+    # @return [String]
+    #
+    # @api private
+    def render_left_border(offset)
+      if position?
+        position = cursor.move_to(@left, @top + offset + @border.top_size)
+      end
+      "#{position}#{color_border(@border.pipe_char) if @border.left?}"
+    end
+
+    # Render content line
+    #
+    # @param [String] formatted_line
+    #   the formatted line
+    #
+    # @return [String]
+    #
+    # @api private
+    def render_content_line(formatted_line)
+      line = []
+      filler_size = @width - @border.left_size - @border.right_size
+
+      if formatted_line
+        line << color_content(formatted_line)
+        line_content_size = Strings::ANSI.sanitize(formatted_line)
+                                         .scan(/[[:print:]]/).join.size
+        filler_size = [filler_size - line_content_size, 0].max
+      end
+
+      if content_style? || !position?
+        line << color_content(SPACE * filler_size)
+      end
+
+      line.join
+    end
+
+    # Render right border
+    #
+    # @param [Integer] offset
+    #   the offset from the top border
+    #
+    # @return [String]
+    #
+    # @api private
+    def render_right_border(offset)
+      if position?
+        position = cursor.move_to(@left + @width - @border.right_size,
+                                  @top + offset + @border.top_size)
+      end
+      "#{position}#{color_border(@border.pipe_char)}"
+    end
+
+    # Render bottom border
+    #
+    # @return [String]
+    #
+    # @api private
+    def render_bottom_border
+      if position?
+        position = cursor.move_to(@left, @top + @height - @border.bottom_size)
+      end
+      "#{position}#{bottom_border}#{@sep unless position?}"
+    end
 
     # Convert content array to string
     #
