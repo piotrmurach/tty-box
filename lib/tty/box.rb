@@ -274,19 +274,19 @@ module TTY
           output << cursor.move_to(@left, @top + i + @border.top_size)
         end
         if @border.left?
-          output << @border_bg.(@border_fg.(@border.pipe_char))
+          output << color_border(@border.pipe_char)
         end
 
         filler_size = @width - @border.left_size - @border.right_size
         if formatted_line = @formatted_lines[i]
-          output << @bg.(@fg.(formatted_line))
+          output << color_content(formatted_line)
           line_content_size = Strings::ANSI.sanitize(formatted_line)
                                            .scan(/[[:print:]]/).join.size
           filler_size = [filler_size - line_content_size, 0].max
         end
 
         if content_style? || !position?
-          output << @bg.(@fg.(SPACE * filler_size))
+          output << color_content(SPACE * filler_size)
         end
 
         if @border.right?
@@ -294,7 +294,7 @@ module TTY
             output << cursor.move_to(@left + @width - @border.right_size,
                                      @top + i + @border.top_size)
           end
-          output << @border_bg.(@border_fg.(@border.pipe_char))
+          output << color_border(@border.pipe_char)
         end
         output << @sep unless position?
       end
@@ -357,6 +357,30 @@ module TTY
       ]
     end
 
+    # Apply colour style to border
+    #
+    # @param [String] char
+    #   the border character to colour
+    #
+    # @return [String]
+    #
+    # @api private
+    def color_border(char)
+      @border_bg.(@border_fg.(char))
+    end
+
+    # Apply colour style to content
+    #
+    # @param [String] content
+    #   the content to colour
+    #
+    # @return [String]
+    #
+    # @api private
+    def color_content(content)
+      @bg.(@fg.(content))
+    end
+
     # Format content by wrapping, aligning and padding out
     #
     # @param [Array<String>] lines
@@ -417,13 +441,13 @@ module TTY
       top_space_after  = top_space_left / 2 + top_space_left % 2
 
       [
-        @border_bg.(@border_fg.(@border.top_left_corner)),
-        @border_bg.(@border_fg.(title[:top_left].to_s)),
-        @border_bg.(@border_fg.(@border.line_char * top_space_before)),
-        @border_bg.(@border_fg.(title[:top_center].to_s)),
-        @border_bg.(@border_fg.(@border.line_char * top_space_after)),
-        @border_bg.(@border_fg.(title[:top_right].to_s)),
-        @border_bg.(@border_fg.(@border.top_right_corner))
+        color_border(@border.top_left_corner),
+        color_border(title[:top_left].to_s),
+        color_border(@border.line_char * top_space_before),
+        color_border(title[:top_center].to_s),
+        color_border(@border.line_char * top_space_after),
+        color_border(title[:top_right].to_s),
+        color_border(@border.top_right_corner)
       ].join
     end
 
@@ -460,13 +484,13 @@ module TTY
       bottom_space_after = bottom_space_left / 2 + bottom_space_left % 2
 
       [
-        @border_bg.(@border_fg.(@border.bottom_left_corner)),
-        @border_bg.(@border_fg.(title[:bottom_left].to_s)),
-        @border_bg.(@border_fg.(@border.line_char * bottom_space_before)),
-        @border_bg.(@border_fg.(title[:bottom_center].to_s)),
-        @border_bg.(@border_fg.(@border.line_char * bottom_space_after)),
-        @border_bg.(@border_fg.(title[:bottom_right].to_s)),
-        @border_bg.(@border_fg.(@border.bottom_right_corner))
+        color_border(@border.bottom_left_corner),
+        color_border(title[:bottom_left].to_s),
+        color_border(@border.line_char * bottom_space_before),
+        color_border(title[:bottom_center].to_s),
+        color_border(@border.line_char * bottom_space_after),
+        color_border(title[:bottom_right].to_s),
+        color_border(@border.bottom_right_corner)
       ].join
     end
   end # Box
