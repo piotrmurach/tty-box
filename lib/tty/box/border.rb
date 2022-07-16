@@ -9,7 +9,8 @@ module TTY
       BOX_CHARS = {
         ascii: %w[+ + + + + + + + - | +],
         light: %w[┘ ┐ ┌ └ ┤ ┴ ┬ ├ ─ │ ┼],
-        thick: %w[╝ ╗ ╔ ╚ ╣ ╩ ╦ ╠ ═ ║ ╬]
+        thick: %w[╝ ╗ ╔ ╚ ╣ ╩ ╦ ╠ ═ ║ ╬],
+        round: %w[╯ ╮ ╭ ╰ ┤ ┴ ┬ ├ ─ │ ┼]
       }.freeze
 
       BORDER_VALUES = %i[
